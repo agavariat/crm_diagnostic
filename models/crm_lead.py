@@ -690,34 +690,34 @@ SUGGEST_VALUATION = {
 
 }
 
-class CrmLead(models.Model):
-    _inherit = 'crm.lead'
+#class CrmLead(models.Model):
+ #   _inherit = 'crm.lead'
 
 
-    crm_lead_id = fields.One2many(
-        'crm.diagnostic',
-        'lead_id',
-        string='CRM Diagnostic',
-        copy=False)
-    mentors = fields.Many2many(
-        'res.partner',
-        string='Mentores',
-        readonly=True
-    )
-    coordinador = fields.Many2one(
-        'res.users',
-        string='Coordinador'
-    )
-    diagnostico = fields.Selection(
-        selection=[
-            ('competitividad', 'Nivel de competitividad'),
-            ('incipiente', 'Incipiento'),
-            ('aceptable', 'Aceptable'),
-            ('confiable', 'Confiable'),
-            ('competente', 'Competente'),
-            ('excelencia', 'Excelencia')],
-        string='Diagnostico'
-    )
+  #  crm_lead_id = fields.One2many(
+  #      'crm.diagnostic',
+  #      'lead_id',
+  #      string='CRM Diagnostic',
+  #      copy=False)
+ #   mentors = fields.Many2many(
+ #       'res.partner',
+ #       string='Mentores',
+#        readonly=True
+#    )
+#    coordinador = fields.Many2one(
+#        'res.users',
+ #       string='Coordinador'
+ #   )
+ #   diagnostico = fields.Selection(
+ #       selection=[
+ #           ('competitividad', 'Nivel de competitividad'),
+ #           ('incipiente', 'Incipiento'),
+ #           ('aceptable', 'Aceptable'),
+ #           ('confiable', 'Confiable'),
+ #           ('competente', 'Competente'),
+ #           ('excelencia', 'Excelencia')],
+ #       string='Diagnostico'
+ #   )
     # computed fields
   
 
@@ -725,20 +725,20 @@ class CrmLead(models.Model):
    
 
     # return a dic values for crm.diagnostic
-    def getting_values_to_crm_diagnostic(self):
-        for lead in self:
-            dic_vals = {
-                'lead_id': lead.id,
-                'fecha': fields.Date.today(),
-                'nombre_negocio': lead.x_nombre_negocio,
-                'nombre_propietario': lead.x_nombre,
-                'numero_identificacion': lead.x_identification,
-                'crm_diagnostic_line_ids': []
-            }
-            dic_sel_fields = lead.getting_selection_fields_to_dignostic_form(lead)
-            dic_vals.update(dic_sel_fields)
-            dic_vals['crm_diagnostic_line_ids'] = lead.prepare_diagnostic_lines(lead)
-            return dic_vals
+ #   def getting_values_to_crm_diagnostic(self):
+ #       for lead in self:
+ #           dic_vals = {
+ #               'lead_id': lead.id,
+ #               'fecha': fields.Date.today(),
+ #               'nombre_negocio': lead.x_nombre_negocio,
+ #               'nombre_propietario': lead.x_nombre,
+ #               'numero_identificacion': lead.x_identification,
+  #              'crm_diagnostic_line_ids': []
+  #          }
+  #          dic_sel_fields = lead.getting_selection_fields_to_dignostic_form(lead)
+  #          dic_vals.update(dic_sel_fields)
+  #          dic_vals['crm_diagnostic_line_ids'] = lead.prepare_diagnostic_lines(lead)
+  #          return dic_vals
 
     # getting str values from selection fields
     @api.model
@@ -812,49 +812,32 @@ class CrmLead(models.Model):
                 lead.diagnostico = k
 
     # this method is called from cron
-    def relate_events_to_leads(self):
-        event_ids = self.available_events()
-        if not event_ids:
-            return
-        lead_ids = self.search(
-            [('mentors', '=', False),
-             ('diagnostico', 'in', ('confiable', 'competente', 'excelencia'))])
-        if not lead_ids:
-            return
-        for lead in lead_ids:
-            for event in event_ids.sorted(reverse=True):
-                # TODO
+  #  def relate_events_to_leads(self):
+  #      event_ids = self.available_events()
+ #       if not event_ids:
+ #           return
+  #      lead_ids = self.search(
+  #          [('mentors', '=', False),
+  #           ('diagnostico', 'in', ('confiable', 'competente', 'excelencia'))])
+  #      if not lead_ids:
+ #           return
+ #       for lead in lead_ids:
+ #           for event in event_ids.sorted(reverse=True):
+ #               # TODO
                 # we remove the current item of lead_ids and event_ids of their each object array
                 # because an opportunity has to be in an event
-                event.opportunity_id = lead.id
-                lead.mentors += event.partner_ids
-                self.send_mail_notification(lead)
-                event_ids -= event
-                lead_ids -= lead
-                break
+ #               event.opportunity_id = lead.id
+ #               lead.mentors += event.partner_ids
+  #              self.send_mail_notification(lead)
+  #              event_ids -= event
+ #               lead_ids -= lead
+ #               break
 
     # send email notification to coordinador and facilitador
-    @api.model
-    def send_mail_notification(self, lead_id):
-        try:
-            template_id = self.env.ref('crm_diagnostic.q_mail_template_event_notification')
-            template_id.send_mail(lead_id.id, force_send=True)
-        except Exception as e:
-            print(e)
+   
 
     # return events availables
-    def available_events(self):
-        week_days = range(0, 5)
-        date_to_search = fields.Datetime.now().replace(hour=0, minute=0) + timedelta(days=1)
-        _logger.info(date_to_search)
-        _logger.info("$"*100)
-        events = self.env['calendar.event'].search(
-            [('start_datetime', '>', date_to_search),
-            ('opportunity_id', '=', False)])
-        for event in events:
-            if event.start_datetime.weekday() not in week_days:
-                events -= event
-        return events
+    
 
     # returning area and suggestion base on field_name and score
     @api.model
@@ -896,37 +879,37 @@ class CrmLead(models.Model):
 ##########################################################################
 #                           ATTENTION PLAN METHODS
 ##########################################################################
-    crm_attenation_plan_ids = fields.One2many(
-        'crm.attention.plan',
-        'lead_id',
-        copy=False)
+ #   crm_attenation_plan_ids = fields.One2many(
+  #      'crm.attention.plan',
+  #      'lead_id',
+  #      copy=False)
 
     # returning an action to go to crm.attention.plan form view related to lead
-    def call_action_crm_attention_plan(self):
-        for record in self:
+  #  def call_action_crm_attention_plan(self):
+   #     for record in self:
             # validating if it is necessary to create a new attention plan record or return the first on the list
-            if len(record.crm_attenation_plan_ids) > 0:
-               return record.action_to_return_to_crm_attention_plan(record.crm_attenation_plan_ids[0])
-            else:
-                if len(record.crm_lead_id) <= 0:
+    #        if len(record.crm_attenation_plan_ids) > 0:
+    #           return record.action_to_return_to_crm_attention_plan(record.crm_attenation_plan_ids[0])
+    #        else:
+     #           if len(record.crm_lead_id) <= 0:
                     # we avoid to execute the attention plan whether diagnostic haven't executed yet
-                    raise ValidationError('No puede realizar el plan de atención sin antes haber realizado el diagnostico.')
-                attention_plan_vals = record.getting_values_to_crm_attention_plan()
-                crm_attention_id = self.env['crm.attention.plan'].create(attention_plan_vals)
-                crm_attention_id.diagnostico = record.diagnostico
-            return record.action_to_return_to_crm_attention_plan(crm_attention_id)
+      #              raise ValidationError('No puede realizar el plan de atención sin antes haber realizado el diagnostico.')
+      #          attention_plan_vals = record.getting_values_to_crm_attention_plan()
+      #          crm_attention_id = self.env['crm.attention.plan'].create(attention_plan_vals)
+     #           crm_attention_id.diagnostico = record.diagnostico
+     #       return record.action_to_return_to_crm_attention_plan(crm_attention_id)
 
     # return a dic values for crm.diagnostic
-    def getting_values_to_crm_attention_plan(self):
-        for lead in self:
-            dic_vals = {
-                'lead_id': lead.id,
-                'nombre_negocio': lead.x_nombre_negocio,
-                'ubicacion': lead.x_dir_neg,
-                'fecha': fields.Date.today(),
-                'plan_line_ids': lead.get_attention_plan_lines()
-            }
-            return dic_vals
+ #   def getting_values_to_crm_attention_plan(self):
+ #       for lead in self:
+  #          dic_vals = {
+            #    'lead_id': lead.id,
+   #             'nombre_negocio': lead.x_nombre_negocio,
+    #            'ubicacion': lead.x_dir_neg,
+     #           'fecha': fields.Date.today(),
+     #           'plan_line_ids': lead.get_attention_plan_lines()
+     #       }
+      #      return dic_vals
 
     def get_attention_plan_lines(self):
         lines = []
