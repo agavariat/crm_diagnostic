@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models, api, SUPERUSER_ID, _
-from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
+#from odoo import fields, models, api, SUPERUSER_ID, _
+#from odoo.exceptions import ValidationError
+#from dateutil.relativedelta import relativedelta
 from datetime import datetime, timedelta
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
-from lxml import etree
+#from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+#from lxml import etree
 import json
 import logging
 
@@ -690,7 +690,7 @@ SUGGEST_VALUATION = {
 
 }
 
-#class CrmLead(models.Model):
+ #class CrmLead(models.Model):
  #   _inherit = 'crm.lead'
 
 
@@ -702,10 +702,10 @@ SUGGEST_VALUATION = {
  #   mentors = fields.Many2many(
  #       'res.partner',
  #       string='Mentores',
-#        readonly=True
-#    )
-#    coordinador = fields.Many2one(
-#        'res.users',
+ #        readonly=True
+ #    )
+ #    coordinador = fields.Many2one(
+ #        'res.users',
  #       string='Coordinador'
  #   )
  #   diagnostico = fields.Selection(
@@ -741,75 +741,20 @@ SUGGEST_VALUATION = {
   #          return dic_vals
 
     # getting str values from selection fields
-    @api.model
-    def getting_selection_fields_to_dignostic_form(self, lead):
-        dic_fields = lead.read()[0]
-        dic_selection_fields = {}
-        for k, v in CRM_DIAGNOSTIC_SELECTION_FIELDS.items():
-            for key in dic_fields:
-                if k == key:
-                    dic_selection_fields[v] = dict(lead._fields[k].selection).get(getattr(lead, k))
-        return dic_selection_fields
+ #   @api.model
+ #   def getting_selection_fields_to_dignostic_form(self, lead):
+ #       dic_fields = lead.read()[0]
+ #       dic_selection_fields = {}
+ #       for k, v in CRM_DIAGNOSTIC_SELECTION_FIELDS.items():
+  #          for key in dic_fields:
+  #              if k == key:
+   #                 dic_selection_fields[v] = dict(lead._fields[k].selection).get(getattr(lead, k))
+   #     return dic_selection_fields
 
     # return a list of values to create diagnostic lines
-    @api.model
-    def prepare_diagnostic_lines(self, lead):
-        lines = []
-        dic_fields = lead.read()[0]
-        _fields = self.env['ir.model.fields'].search(
-            [('name', 'ilike', 'x_'),
-             ('model_id.model', '=', lead._name),
-             ('selectable', '=', True),
-             ('ttype', '=', 'selection')]).filtered(
-                 lambda f : f.name.startswith('x_'))
-        puntaje = 0
-        for field in _fields:
-            field_value = dic_fields.get(field.name)
-            # TODO
-            # validating if the field value is in ANSWER_VALUES
-            # we obtain certain values from lead on its field what is iterating
-            if field_value in ANSWER_VALUES:
-                answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
-                score = ANSWER_VALUES.get(field_value)
-                valuation = TEXT_VALUATION.get(score)
-                suggestion, area = self.get_sugestion(field.name, score)
-                lines.append(
-                    (0, 0, {
-                        'name': field.field_description,
-                        'respuesta': answer,
-                        'puntaje': score,
-                        'area': area,
-                        'sugerencia': suggestion,
-                        'valoracion': valuation,
-                        }))
-            else:
-                answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
-                score = ANSWER_VALUES.get(field_value)
-                valuation = TEXT_VALUATION.get(score)
-                suggestion, area = self.get_sugestion(field.name, score)
-                lines.append(
-                    (0, 0, {
-                        'name': field.field_description,
-                        'respuesta': answer,
-                        'puntaje': score,
-                        'area': area,
-                        'sugerencia': suggestion,
-                        'valoracion': valuation,
-                        }))
-            if score:
-                puntaje += score
-        self.set_diagnostico(puntaje, lead)
-        return lines
-
+    
     # set diagnostico based on range
-    @api.model
-    def set_diagnostico(self, score, lead):
-        if score > 380:
-            lead.diagnostico = 'excelencia'
-            return
-        for k, v in RANGES.items():
-            if score in v:
-                lead.diagnostico = k
+   
 
     # this method is called from cron
   #  def relate_events_to_leads(self):
@@ -823,7 +768,7 @@ SUGGEST_VALUATION = {
  #           return
  #       for lead in lead_ids:
  #           for event in event_ids.sorted(reverse=True):
- #               # TODO
+              # TODO
                 # we remove the current item of lead_ids and event_ids of their each object array
                 # because an opportunity has to be in an event
  #               event.opportunity_id = lead.id
@@ -840,31 +785,9 @@ SUGGEST_VALUATION = {
     
 
     # returning area and suggestion base on field_name and score
-    @api.model
-    def get_sugestion(self, field_name, score):
-        suggestion = False
-        area = False
-        # TODO if any param comes in False we immediatly return values in False
-        if not score or not field_name:
-            return suggestion, area
-        if field_name in SUGGEST_VALUATION:
-            suggestion = SUGGEST_VALUATION[field_name].get(score, False)
-            area = SUGGEST_VALUATION[field_name].get('area', False)
-        return suggestion, area
+    
 
-    @api.model
-    def action_to_return_to_crm_diagnostic(self, crm_diagnostic_id):
-        search_view = self.env.ref('crm_diagnostic.crm_diagnostic_view')
-        return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'crm.diagnostic',
-            'res_id': crm_diagnostic_id.id,
-            'views': [(search_view.id, 'form')],
-            'view_id': search_view.id,
-            'target': 'current',
-            'flags': {'mode': 'readonly', 'action_buttons': True},
-        }
+    
 
 ##########################################################################
 #                            ROLE METHODS
@@ -911,28 +834,6 @@ SUGGEST_VALUATION = {
      #       }
       #      return dic_vals
 
-    def get_attention_plan_lines(self):
-        lines = []
-        items = ['48 H', '1 Semana', '2 Semanas', '1 Mes', 'A futuro', 'Hábitos a desarrollar']
-        for item in items:
-            lines.append(
-                (0, 0, {
-                    'prioridad': item,
-                    'actividades': False,
-                    'soluciones': False,
-                    'reponsable': False,
-                }))
-        return lines
+    
 
-    @api.model
-    def action_to_return_to_crm_attention_plan(self, crm_attention_id):
-        form_view = self.env.ref('crm_diagnostic.q_crm_attention_plan_form_view')
-        return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'crm.attention.plan',
-            'res_id': crm_attention_id.id,
-            'views': [(form_view.id, 'form')],
-            'view_id': form_view.id,
-            'target': 'current',
-        }
+    
