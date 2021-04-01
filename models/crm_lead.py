@@ -720,7 +720,7 @@ class CrmLead(models.Model):
     )
     # computed fields
     
-    )
+    
 
     # returning an action to go to crm.diagnostic form view related to lead
     def action_crm_diagnostic_view(self):
