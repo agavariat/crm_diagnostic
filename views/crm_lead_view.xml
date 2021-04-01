@@ -40,11 +40,6 @@
         <field name="name">q.inherit.crm.case.form.view.oppor.inherit.product</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm_uni_forms.crm_case_form_view_oppor_inherit_product"/>
-        <field name="arch" type="xml"> 
-            <xpath expr="//page[@name='modulo3']" position="attributes">
-                <attribute name="attrs">{'invisible': [('second_module_read', '=', False)]}</attribute>
-            </xpath>
-        </field>
     </record>
 
 </odoo>
