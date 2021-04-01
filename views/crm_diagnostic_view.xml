@@ -28,7 +28,6 @@
                                 <field name="numero_identificacion" string="Numero de indentificacion"/>
                                 <field name="codigo_formulario" string="Codigo del formulario"/>
                             </group>
-
                             <group name="center_right">
                                 <field name="valoracion_micronegocio" string="Valoracion del Micronegocio"/>
                                 <field name="fecha" string="Fecha"/>
