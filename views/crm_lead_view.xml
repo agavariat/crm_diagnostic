@@ -10,30 +10,15 @@
                 <button name="action_crm_diagnostic_view" type="object" icon="fa-file-text-o" class="oe_stat_button">
                     <span class="o_stat_text"> Realizar Diagnostico </span>
                 </button>
-                <button name="call_action_crm_attention_plan" type="object" icon="fa-check-square-o" class="oe_stat_button">
-                    <span class="o_stat_text">Plan de atención</span>
-                </button>
             </xpath>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="mentors" widget="many2many_tags"/>
-            </xpath>
-            <xpath expr="//field[@name='user_id']" position="after">
-                <field name="coordinador"/>
-            </xpath>
+            </xpath>    
         </field>
     </record>
 
     <!-- inherit crm.stage from crm-->
-    <record id="q_inherit_crm_stage_form_view" model="ir.ui.view">
-        <field name="name">q.inherit.crm.stage.form.view</field>
-        <field name="model">crm.stage</field>
-        <field name="inherit_id" ref="crm.crm_stage_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='is_won']" position="before">
-                <field name="stage_state"/>
-            </xpath>
-        </field>
-    </record>
+    
 
     <!-- inherit crm.lead from crm_uni_forms-->
     <record id="q_inherit_crm_case_form_view_oppor_inherit_product" model="ir.ui.view">
