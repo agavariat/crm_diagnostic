@@ -70,20 +70,7 @@ class CrmDiagnostic(models.Model):
   #                lambda line : line.area == 'PROTOCOLOS DE BIOSEGURIDAD')
   #        )
         
-    @api.depends('crm_diagnostic_line_ids')
-    def _get_chart(self):
-        for diagnostic in self:
-            bioseguridad = 0
-            
-            for line in diagnostic.crm_diagnostic_line_orientation_ids:
-                bioseguridad += int(line.puntaje)
-         
-            data_chart = [bioseguridad] 
-
-            data = self.make_chart_radar(data_chart)
-            data2 = self.make_chart_barh([bioseguridad/0.75])
-            diagnostic.char_img = base64.b64encode(data)
-            diagnostic.char_img_bar = base64.b64encode(data2)
+   
 
     @api.model
     def create(self, vals):

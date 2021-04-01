@@ -33,9 +33,6 @@ class CrmDiagnosticLine(models.Model):
     puntaje = fields.Char(
         string='Puntaje'
     )
-    area = fields.Char(
-        string='Área'
-    )
     valoracion = fields.Char(
         string='Valoración'
     )
