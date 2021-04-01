@@ -36,128 +36,6 @@ TEXT_VALUATION = {
         3: 'Confiable'
     }
 
-SUGGEST_VALUATION = {
-    'x_proto1': {
-        1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        2: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto2': {
-        1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        2: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto3': {
-        1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        2: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto4': {
-        1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        2: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto6': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto7': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto8': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto9': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto10': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto11': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto12': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto13': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto14': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto15': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-    'x_proto16': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        2: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        3: '',
-        4: '',
-        5: '',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
-        },
-}
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
@@ -244,7 +122,7 @@ class CrmLead(models.Model):
                         'name': field.field_description,
                         'respuesta': answer,
                         'puntaje': score,
-                        'area': area,
+               #         'area': area,
                 #        'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
@@ -258,7 +136,7 @@ class CrmLead(models.Model):
                         'name': field.field_description,
                         'respuesta': answer,
                         'puntaje': score,
-                        'area': area,
+                      #  'area': area,
                    #     'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
@@ -276,19 +154,6 @@ class CrmLead(models.Model):
         for k, v in RANGES.items():
             if score in v:
                 lead.diagnostico = k
-
-   
-    @api.model
-    def get_sugestion(self, field_name, score):
-        suggestion = False
-        area = False
-        # TODO if any param comes in False we immediatly return values in False
-        if not score or not field_name:
-            return suggestion, area
-        if field_name in SUGGEST_VALUATION:
-            suggestion = SUGGEST_VALUATION[field_name].get(score, False)
-            area = SUGGEST_VALUATION[field_name].get('area', False)
-        return suggestion, area
 
     @api.model
     def action_to_return_to_crm_diagnostic(self, crm_diagnostic_id):
