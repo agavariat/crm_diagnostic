@@ -238,7 +238,7 @@ class CrmLead(models.Model):
                 answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
-                suggestion, area = self.get_sugestion(field.name, score)
+                #suggestion, area = self.get_sugestion(field.name, score)
                 lines.append(
                     (0, 0, {
                         'name': field.field_description,
@@ -252,14 +252,14 @@ class CrmLead(models.Model):
                 answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
-                suggestion, area = self.get_sugestion(field.name, score)
+             #   suggestion, area = self.get_sugestion(field.name, score)
                 lines.append(
                     (0, 0, {
                         'name': field.field_description,
                         'respuesta': answer,
                         'puntaje': score,
                         'area': area,
-                        'sugerencia': suggestion,
+                #        'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
             if score:

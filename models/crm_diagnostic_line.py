@@ -36,9 +36,6 @@ class CrmDiagnosticLine(models.Model):
     area = fields.Char(
         string='Área'
     )
-    sugerencia = fields.Char(
-        string='Sugerencia'
-    )
     valoracion = fields.Char(
         string='Valoración'
     )
