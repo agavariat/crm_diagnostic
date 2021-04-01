@@ -719,12 +719,6 @@ class CrmLead(models.Model):
         string='Diagnostico'
     )
     # computed fields
-    first_module_ready = fields.Boolean(
-        compute='compute_first_module'
-    )
-    second_module_read = fields.Boolean(
-        compute='compute_second_module'
-    )
     third_module_ready = fields.Boolean(
         compute='compute_third_module'
     )
