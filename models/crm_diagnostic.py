@@ -38,7 +38,9 @@ class CrmDiagnostic(models.Model):
             ('competitividad', 'Nivel de competitividad'),
             ('incipiente', 'Incipiento'),
             ('aceptable', 'Aceptable'),
-            ('confiable', 'Confiable')],
+            ('confiable', 'Confiable'),
+            ('competente', 'Competente'),
+            ('excelencia', 'Excelencia')],
         string='Valuación de diagnostico'
     )
     company_id = fields.Many2one(
