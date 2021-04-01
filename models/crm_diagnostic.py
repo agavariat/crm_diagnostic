@@ -47,13 +47,7 @@ class CrmDiagnostic(models.Model):
         'crm.diagnostic.line',
         'diagnostic_id',
     )
-    # records for Orientaciones de bioseguridad
-  #  crm_diagnostic_line_orientation_ids = fields.One2many(
-   #     'crm.diagnostic.line',
-   #     compute='_get_lines_for_areas')
-
-    #diagnostic_chart = fields.Char(
-    #    compute='_get_chart', store=False)
+   
 
     diagnostic_chart = fields.Html(
         compute='_get_chart', store=True, sanitize=False)
@@ -61,14 +55,6 @@ class CrmDiagnostic(models.Model):
     char_img_bar = fields.Binary(compute='_get_chart', store=True,)
     diagnostic_chart_two = fields.Char(
     compute='_get_chart', store=True)
-
-  #  @api.depends('crm_diagnostic_line_ids')
-  #  def _get_lines_for_areas(self):
-  #    for record in self:
-  #        record.crm_diagnostic_line_orientation_ids = self.remove_duplicate_suggest_lines(
-  #            record.crm_diagnostic_line_ids.filtered(
-  #                lambda line : line.area == 'PROTOCOLOS DE BIOSEGURIDAD')
-  #        )
         
    
 

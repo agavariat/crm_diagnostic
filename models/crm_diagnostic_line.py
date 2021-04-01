@@ -10,8 +10,8 @@ class CrmDiagnosticLine(models.Model):
    # _rec_name = 'area'
 
     ANSWER_VALUES = {
-        'si': 1, 
-        'no': 2,
+        'si': 5, 
+        'no': 1,
         'no_aplica': 0
     }
 
