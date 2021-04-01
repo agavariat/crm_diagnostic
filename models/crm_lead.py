@@ -64,12 +64,7 @@ class CrmLead(models.Model):
         string='Diagnostico'
     )
     # computed fields
-    first_module_ready = fields.Boolean(
-        compute='compute_first_module'
-    )
-    second_module_read = fields.Boolean(
-        compute='compute_second_module'
-    )
+    
     third_module_ready = fields.Boolean(
         compute='compute_third_module'
     )
@@ -82,7 +77,7 @@ class CrmLead(models.Model):
                 return record.action_to_return_to_crm_diagnostic(record.crm_lead_id[0])
             else:
                 # we avoid to execute the diagnostic whether question modules haven't executed yet
-                if not record.first_module_ready or not record.second_module_read or not record.third_module_ready:
+                if not record.third_module_ready:
                     raise ValidationError('Para realizar el diagnostico, debe responder las preguntas de los 3 modulos.')
                 crm_diagnostic_vals = record.getting_values_to_crm_diagnostic()
                 crm_diagnostic_id = self.env['crm.diagnostic'].create(crm_diagnostic_vals)
@@ -262,8 +257,7 @@ class CrmLead(models.Model):
             'x_tien_dur', 'tie_us_cre', 'tie_ca_ide', 'x_datos1']
 
     # return the field list to validate the module2
-    def fields_module2(self):
-        return ['x_cont1', 'x_cont1_por', 'first_module_ready']
+    
 
     # methos that return list of fields by section
     def fields_module3_generalities(self):
@@ -345,40 +339,22 @@ class CrmLead(models.Model):
     
 
     # computed if the module1 is ok
-    @api.depends(fields_module1)
-    def compute_first_module(self):
-        for lead in self:
-            if lead.is_facilitator():
-                if lead.all_fields_module1_are_ok():
-                    lead.first_module_ready = True
-                else:
-                    lead.first_module_ready = False
-            else:
-                lead.first_module_ready = False
+   
 
     # computed if the module2 is ok
-    @api.depends(fields_module2)
-    def compute_second_module(self):
-        for lead in self:
-            if lead.is_facilitator() and lead.first_module_ready:
-                if lead.all_fields_module2_are_ok():
-                    lead.second_module_read = True
-                else:
-                    lead.second_module_read = False
-            else:
-                lead.second_module_read = False
+    
 
     # computed if the module3 is ok
-    @api.depends(full_list_field)
-    def compute_third_module(self):
-        for lead in self:
-            if lead.is_facilitator() and lead.second_module_read:
-                if lead.all_fields_module3_are_ok():
-                    lead.third_module_ready = True
-                else:
-                    lead.third_module_ready = False
-            else:
-                lead.third_module_ready = False
+   #  @api.depends(full_list_field)
+  #   def compute_third_module(self):
+   #      for lead in self:
+   #          if lead.is_facilitator() and lead.second_module_read:
+   #              if lead.all_fields_module3_are_ok():
+   #                  lead.third_module_ready = True
+    #             else:
+    #                 lead.third_module_ready = False
+    #         else:
+    #             lead.third_module_ready = False
 
     # validating it all fields of module3 were filled
     def all_fields_module3_are_ok(self):
@@ -486,19 +462,7 @@ class CrmLead(models.Model):
         return stage_id
 
     # change the stage on lead according if the question modules
-    @api.onchange('first_module_ready', 'second_module_read', 'third_module_ready')
-    def update_stage(self):
-        if self.is_facilitator():
-            if self.first_module_ready:
-                second_stage =  self.get_stage('segundo_encuentro')
-                self.stage_id = second_stage if second_stage else self.stage_id
-            if self.first_module_ready and self.second_module_read:
-                third_stage =  self.get_stage('tercer_encuentro')
-                self.stage_id = third_stage if third_stage else self.stage_id
-            if self.first_module_ready and self.second_module_read and self.third_module_ready:
-                fourth_stage =  self.get_stage('espera_de_plan')
-                self.stage_id = fourth_stage if fourth_stage else self.stage_id
-
+    
     # inherit method to validate if the current user has the cordinator profile
     # if so then we set readonly=False on mentors field
     
