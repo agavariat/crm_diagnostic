@@ -48,9 +48,9 @@ class CrmDiagnostic(models.Model):
         'diagnostic_id',
     )
     # records for Orientaciones de bioseguridad
-    crm_diagnostic_line_orientation_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
+  #  crm_diagnostic_line_orientation_ids = fields.One2many(
+   #     'crm.diagnostic.line',
+   #     compute='_get_lines_for_areas')
 
     #diagnostic_chart = fields.Char(
     #    compute='_get_chart', store=False)
@@ -62,31 +62,23 @@ class CrmDiagnostic(models.Model):
     diagnostic_chart_two = fields.Char(
     compute='_get_chart', store=True)
 
-    @api.depends('crm_diagnostic_line_ids')
-    def _get_lines_for_areas(self):
-      for record in self:
-          record.crm_diagnostic_line_orientation_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'PROTOCOLOS DE BIOSEGURIDAD')
-          )
+  #  @api.depends('crm_diagnostic_line_ids')
+  #  def _get_lines_for_areas(self):
+  #    for record in self:
+  #        record.crm_diagnostic_line_orientation_ids = self.remove_duplicate_suggest_lines(
+  #            record.crm_diagnostic_line_ids.filtered(
+  #                lambda line : line.area == 'PROTOCOLOS DE BIOSEGURIDAD')
+  #        )
         
-
-    
-
-
-
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
         for diagnostic in self:
             bioseguridad = 0
             
-
             for line in diagnostic.crm_diagnostic_line_orientation_ids:
                 bioseguridad += int(line.puntaje)
          
-
             data_chart = [bioseguridad] 
-
 
             data = self.make_chart_radar(data_chart)
             data2 = self.make_chart_barh([bioseguridad/0.75])
