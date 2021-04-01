@@ -501,22 +501,7 @@ class CrmLead(models.Model):
 
     # inherit method to validate if the current user has the cordinator profile
     # if so then we set readonly=False on mentors field
-    @api.model
-    def fields_view_get(
-            self, view_id=None, view_type='form', toolbar=False,
-            submenu=False):
-        res = super(CrmLead, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar,
-            submenu=submenu)
-        if view_type == 'form' and self.is_cordinator():
-            doc = etree.XML(res['arch'])
-            for node in doc.xpath("//field[@name='mentors']"):
-                if 'modifiers' in node.attrib:
-                    modifiers = json.loads(node.attrib["modifiers"])
-                    modifiers['readonly'] = False
-                    node.attrib['modifiers'] = json.dumps(modifiers)
-            res['arch'] = etree.tostring(doc)
-        return res
+    
 
 ##########################################################################
 #                           ATTENTION PLAN METHODS
