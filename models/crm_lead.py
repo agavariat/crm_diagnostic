@@ -245,7 +245,7 @@ class CrmLead(models.Model):
                         'respuesta': answer,
                         'puntaje': score,
                         'area': area,
-                        'sugerencia': suggestion,
+                #        'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
             else:
@@ -259,7 +259,7 @@ class CrmLead(models.Model):
                         'respuesta': answer,
                         'puntaje': score,
                         'area': area,
-                #        'sugerencia': suggestion,
+                   #     'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
             if score:
