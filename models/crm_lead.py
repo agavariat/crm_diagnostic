@@ -1020,7 +1020,7 @@ class CrmLead(models.Model):
             return False
         else:
             return True
-
+    #hh
     # checking if all biosecurity field section are ok
     def check_biosecurity_fields(self, fields):
         if any(not getattr(self, field) for field in fields):
