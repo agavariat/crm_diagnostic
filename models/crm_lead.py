@@ -737,7 +737,7 @@ class CrmLead(models.Model):
                 return record.action_to_return_to_crm_diagnostic(record.crm_lead_id[0])
             else:
                 # we avoid to execute the diagnostic whether question modules haven't executed yet
-                if not record.first_module_ready or not record.second_module_read or not record.third_module_ready:
+                if not record.third_module_ready:
                     raise ValidationError('Para realizar el diagnostico, debe responder las preguntas de los 3 modulos.')
                 crm_diagnostic_vals = record.getting_values_to_crm_diagnostic()
                 crm_diagnostic_id = self.env['crm.diagnostic'].create(crm_diagnostic_vals)
@@ -911,21 +911,6 @@ class CrmLead(models.Model):
 #                            ROLE METHODS
 ##########################################################################
 
-    # return the field list to validate the module1
-    def fields_module1(self):
-        return [
-            'x_nombre_negocio', 'x_nombre', 'doctype', 'x_identification', 'x_sexo',
-            'x_etnia', 'x_edad', 'country_id', 'state_id', 'xcity', 'x_vereda', 'mobile',
-            'x_limitacion', 'x_escolaridad', 'x_grupos',
-            'x_estrato', 'x_situacion', 'x_sector', 'x_actcomer', 'x_state_id', 'x_city_id',
-            'x_ubic', 'x_dir_neg', 'x_com_cuenta', 'x_merc78_form', 'x_merc80_form',
-            'x_merc79_form', 'x_merc81_form', 'x_que_por_ren', 'x_que_por_ren_ant',
-            'x_tien_dur', 'tie_us_cre', 'tie_ca_ide', 'x_datos1']
-
-    # return the field list to validate the module2
-    def fields_module2(self):
-        return ['x_cont1', 'x_cont1_por', 'first_module_ready']
-
     # methos that return list of fields by section
     def fields_module3_generalities(self):
         return [
@@ -998,52 +983,6 @@ class CrmLead(models.Model):
         full_fields.extend(['second_module_read'])
         return full_fields
     # ended section
-
-    # validating if the current user has the facilitador profile
-    def is_facilitator(self):
-        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'facilitador')], limit=1)
-        if role_id:
-            if any(user.id == self.env.user.id for user in role_id.line_ids.mapped('user_id')):
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    # validating if the current user has the cordinator profile
-    def is_cordinator(self):
-        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'coordinador')], limit=1)
-        if role_id:
-            if any(user.id == self.env.user.id for user in role_id.line_ids.mapped('user_id')):
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    # computed if the module1 is ok
-    @api.depends(fields_module1)
-    def compute_first_module(self):
-        for lead in self:
-            if lead.is_facilitator():
-                if lead.all_fields_module1_are_ok():
-                    lead.first_module_ready = True
-                else:
-                    lead.first_module_ready = False
-            else:
-                lead.first_module_ready = False
-
-    # computed if the module2 is ok
-    @api.depends(fields_module2)
-    def compute_second_module(self):
-        for lead in self:
-            if lead.is_facilitator() and lead.first_module_ready:
-                if lead.all_fields_module2_are_ok():
-                    lead.second_module_read = True
-                else:
-                    lead.second_module_read = False
-            else:
-                lead.second_module_read = False
 
     # computed if the module3 is ok
     @api.depends(full_list_field)
@@ -1137,63 +1076,6 @@ class CrmLead(models.Model):
             return False
         else:
             return True
-
-
-    # validating it all fields of module1 were filled
-    def all_fields_module1_are_ok(self):
-        fields = self.fields_module1()
-        if any(not getattr(self, field) for field in fields):
-            return False
-        else:
-            return True
-
-    # validating it all fields of module2 were filled
-    def all_fields_module2_are_ok(self):
-        if getattr(self, 'x_cont1') and getattr(self, 'x_cont1') == 'si':
-            return True
-        elif (getattr(self, 'x_cont1') and getattr(self, 'x_cont1') == 'no') and getattr(self, 'x_cont1_por'):
-            return False
-        else:
-            return False
-
-    # getting the stage by stage state
-    @api.model
-    def get_stage(self, stage_state):
-        stage_id = self.env['crm.stage'].sudo().search([('stage_state', '=', stage_state)], limit=1)
-        return stage_id
-
-    # change the stage on lead according if the question modules
-    @api.onchange('first_module_ready', 'second_module_read', 'third_module_ready')
-    def update_stage(self):
-        if self.is_facilitator():
-            if self.first_module_ready:
-                second_stage =  self.get_stage('segundo_encuentro')
-                self.stage_id = second_stage if second_stage else self.stage_id
-            if self.first_module_ready and self.second_module_read:
-                third_stage =  self.get_stage('tercer_encuentro')
-                self.stage_id = third_stage if third_stage else self.stage_id
-            if self.first_module_ready and self.second_module_read and self.third_module_ready:
-                fourth_stage =  self.get_stage('espera_de_plan')
-                self.stage_id = fourth_stage if fourth_stage else self.stage_id
-
-    # inherit method to validate if the current user has the cordinator profile
-    # if so then we set readonly=False on mentors field
-    @api.model
-    def fields_view_get(
-            self, view_id=None, view_type='form', toolbar=False,
-            submenu=False):
-        res = super(CrmLead, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar,
-            submenu=submenu)
-        if view_type == 'form' and self.is_cordinator():
-            doc = etree.XML(res['arch'])
-            for node in doc.xpath("//field[@name='mentors']"):
-                if 'modifiers' in node.attrib:
-                    modifiers = json.loads(node.attrib["modifiers"])
-                    modifiers['readonly'] = False
-                    node.attrib['modifiers'] = json.dumps(modifiers)
-            res['arch'] = etree.tostring(doc)
-        return res
 
 ##########################################################################
 #                           ATTENTION PLAN METHODS
