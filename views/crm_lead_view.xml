@@ -14,17 +14,6 @@
                     <span class="o_stat_text">Plan de atención</span>
                 </button>
             </xpath>
-            <xpath expr="//field[@name='team_id']" position="after">
-                <field name="first_module_ready" invisible="1"/>
-                <field name="second_module_read" invisible="1"/>
-                <field name="third_module_ready" invisible="1"/>
-            </xpath>
-            <xpath expr="//field[@name='company_id']" position="after">
-                <field name="mentors" widget="many2many_tags"/>
-            </xpath>
-            <xpath expr="//field[@name='user_id']" position="after">
-                <field name="coordinador"/>
-            </xpath>
         </field>
     </record>
 
@@ -45,14 +34,6 @@
         <field name="name">q.inherit.crm.case.form.view.oppor.inherit.product</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm_uni_forms.crm_case_form_view_oppor_inherit_product"/>
-        <field name="arch" type="xml">
-            <xpath expr="//page[@name='modulo2']" position="attributes">
-                <attribute name="attrs">{'invisible': [('first_module_ready', '=', False)]}</attribute>
-            </xpath>
-            <xpath expr="//page[@name='modulo3']" position="attributes">
-                <attribute name="attrs">{'invisible': [('second_module_read', '=', False)]}</attribute>
-            </xpath>
-        </field>
     </record>
 
 </odoo>
