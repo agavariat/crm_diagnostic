@@ -252,7 +252,7 @@ class CrmLead(models.Model):
                 answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
-             #   suggestion, area = self.get_sugestion(field.name, score)
+               # area = self.get_sugestion(field.name, score)
                 lines.append(
                     (0, 0, {
                         'name': field.field_description,
@@ -278,4 +278,28 @@ class CrmLead(models.Model):
                 lead.diagnostico = k
 
    
- 
+   @api.model
+    def get_sugestion(self, field_name, score):
+        suggestion = False
+        area = False
+        # TODO if any param comes in False we immediatly return values in False
+        if not score or not field_name:
+            return suggestion, area
+        if field_name in SUGGEST_VALUATION:
+            suggestion = SUGGEST_VALUATION[field_name].get(score, False)
+            area = SUGGEST_VALUATION[field_name].get('area', False)
+        return suggestion, area
+
+    @api.model
+    def action_to_return_to_crm_diagnostic(self, crm_diagnostic_id):
+        search_view = self.env.ref('crm_diagnostic.crm_diagnostic_view')
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'crm.diagnostic',
+            'res_id': crm_diagnostic_id.id,
+            'views': [(search_view.id, 'form')],
+            'view_id': search_view.id,
+            'target': 'current',
+            'flags': {'mode': 'readonly', 'action_buttons': True},
+        }
