@@ -71,22 +71,7 @@ class CrmDiagnostic(models.Model):
           )
         
 
-    @api.model
-    def remove_duplicate_suggest_lines(self, line_ids):
-        # lines without suggestion
-        wo_suggestion_lines = line_ids.filtered(lambda x: x.sugerencia in ('', None, False)).ids
-        # lines with suggestion
-        suggestion_lines = line_ids.filtered(lambda l: l.sugerencia not in ('', None, False))
-        suggestions = suggestion_lines.mapped('sugerencia')
-        final_suggestions = list(dict.fromkeys(suggestions))
-        lines = []
-        for suggest in final_suggestions:
-            lines.append(suggestion_lines.filtered(lambda s: s.sugerencia == suggest).ids[0])
-        wo_suggestion_lines.extend(lines)
-        if wo_suggestion_lines:
-            return wo_suggestion_lines
-        else:
-            return self.env['crm.diagnostic.line']
+    
 
 
 
