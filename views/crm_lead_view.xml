@@ -16,15 +16,4 @@
             </xpath>    
         </field>
     </record>
-
-    <!-- inherit crm.stage from crm-->
-    
-
-    <!-- inherit crm.lead from crm_uni_forms-->
-    <record id="q_inherit_crm_case_form_view_oppor_inherit_product" model="ir.ui.view">
-        <field name="name">q.inherit.crm.case.form.view.oppor.inherit.product</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm_uni_forms.crm_case_form_view_oppor_inherit_product"/>
-    </record>
-
 </odoo>
