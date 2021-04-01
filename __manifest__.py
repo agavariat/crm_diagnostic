@@ -13,11 +13,9 @@ CRM Diagnostic
         'web',
         'crm',
         'crm_uni_forms',
-        'base_user_role'
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/web_assets.xml',
         'data/email_template.xml',
         'data/ir_cron.xml',
         'views/crm_lead_view.xml',
