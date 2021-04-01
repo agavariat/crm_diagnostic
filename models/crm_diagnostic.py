@@ -3,13 +3,11 @@ from odoo import fields, models, api, SUPERUSER_ID, _
 from odoo.exceptions import ValidationError
 from datetime import datetime, date, time, timedelta
 import logging
-
 import pandas as pd
 import base64
 import matplotlib.pyplot as plt
 import numpy as np
 from math import pi
-
 import io
 
 
@@ -38,9 +36,7 @@ class CrmDiagnostic(models.Model):
             ('competitividad', 'Nivel de competitividad'),
             ('incipiente', 'Incipiento'),
             ('aceptable', 'Aceptable'),
-            ('confiable', 'Confiable'),
-            ('competente', 'Competente'),
-            ('excelencia', 'Excelencia')],
+            ('confiable', 'Confiable')],
         string='Valuación de diagnostico'
     )
     company_id = fields.Many2one(
@@ -53,34 +49,6 @@ class CrmDiagnostic(models.Model):
     )
     # records for Orientaciones de bioseguridad
     crm_diagnostic_line_orientation_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Modelo de Negocio
-    crm_diagnostic_line_business_model_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Producción
-    crm_diagnostic_line_production_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Innovación
-    crm_diagnostic_line_innovation_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Formalización
-    crm_diagnostic_line_formalization_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Organización
-    crm_diagnostic_line_organization_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Mercadeo y Comercialización
-    crm_diagnostic_line_marketing_ids = fields.One2many(
-        'crm.diagnostic.line',
-        compute='_get_lines_for_areas')
-    # records for Finanzas
-    crm_diagnostic_line_finance_ids = fields.One2many(
         'crm.diagnostic.line',
         compute='_get_lines_for_areas')
 
@@ -101,34 +69,7 @@ class CrmDiagnostic(models.Model):
               record.crm_diagnostic_line_ids.filtered(
                   lambda line : line.area == 'PROTOCOLOS DE BIOSEGURIDAD')
           )
-          record.crm_diagnostic_line_business_model_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'MODELO DE NEGOCIO')
-          )
-          record.crm_diagnostic_line_production_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'PRODUCCIÓN')
-          )
-          record.crm_diagnostic_line_innovation_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'INNOVACIÓN')
-          )
-          record.crm_diagnostic_line_formalization_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'FORMALIZACION')
-          )
-          record.crm_diagnostic_line_organization_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'ORGANIZACIÓN')
-          )
-          record.crm_diagnostic_line_marketing_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'MERCADEO Y COMERCIALIZACION')
-          )
-          record.crm_diagnostic_line_finance_ids = self.remove_duplicate_suggest_lines(
-              record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'FINANZAS')
-          )
+        
 
     @api.model
     def remove_duplicate_suggest_lines(self, line_ids):
@@ -147,77 +88,19 @@ class CrmDiagnostic(models.Model):
         else:
             return self.env['crm.diagnostic.line']
 
-    def make_chart_barh(self, data):
-        buf = io.BytesIO()
-        objects = ['Protocolo de \n Bioseguridad', 'Modelo \n de Negocio', 'Producción', 'Innovación', 'Formalizacion', 'Organización',
-                     'Mercadeo \n y \n Comercializacion ', 'Finanzas']
-        y_pos = np.arange(len(objects))
-        performance = data
-        plt.figure(figsize =(10, 6))
-        plt.xlim(0, 100)
-        plt.barh(y_pos, performance, align='center', alpha=0.5)
-        plt.yticks(y_pos, objects)
-        plt.xlabel('Porcentaje')
-        plt.title('Porcentaje de cumplimiento')
-
-        plt.savefig(buf, format='png')
-        plt.close()
-        return buf.getvalue()
-
-    def make_chart_radar(self, data):
-        buf = io.BytesIO()
-        values = [75, 85, 55, 25, 30, 40, 70, 45]
-        data += data[:1]
-        N = len(values)
-        values += values[:1]
-        angles = ['Protocolo de \n Bioseguridad', 'Modelo \n de Negocio', 'Producción', 'Innovación', 'Formalizacion', 'Organización',
-                     'Mercadeo \n y \n Comercializacion ', 'Finanzas']
-        plt.figure(figsize =(10, 6))
-        plt.subplot(polar = True)
-        theta = np.linspace(0, 2 * np.pi, len(values))
-        lines, labels = plt.thetagrids(range(0, 360, int(360/len(angles))),
-                                                         (angles))
-        plt.plot(theta, values)
-        plt.fill(theta, values, 'b', alpha = 0.1)
-        plt.plot(theta, data)
-        plt.legend(labels =('Puntaje Maximo', 'Puntaje Micronegocio'),
-           loc = 3)
-        plt.title('Puntuación Diagnostico')
-        plt.savefig(buf, format='png')
-        plt.close()
-        return buf.getvalue()
 
 
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
         for diagnostic in self:
             bioseguridad = 0
-            modelonegocio = 0
-            produccion = 0
-            innovacion = 0
-            formalizacon = 0
-            organizacion = 0
-            mercadeo = 0
-            finanzas = 0
+            
 
             for line in diagnostic.crm_diagnostic_line_orientation_ids:
                 bioseguridad += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_business_model_ids:
-                modelonegocio += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_production_ids:
-                produccion += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_innovation_ids:
-                innovacion += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_formalization_ids:
-                formalizacon += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_organization_ids:
-                organizacion += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_marketing_ids:
-                mercadeo += int(line.puntaje)
-            for line in diagnostic.crm_diagnostic_line_finance_ids:
-                finanzas += int(line.puntaje)
+         
 
-            data_chart = [bioseguridad, modelonegocio, produccion, innovacion, formalizacon, organizacion, mercadeo, finanzas] 
+            data_chart = [bioseguridad] 
 
 
             data = self.make_chart_radar(data_chart)
