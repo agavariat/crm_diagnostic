@@ -278,7 +278,7 @@ class CrmLead(models.Model):
                 lead.diagnostico = k
 
    
-   @api.model
+    @api.model
     def get_sugestion(self, field_name, score):
         suggestion = False
         area = False
