@@ -7,18 +7,26 @@ from odoo.exceptions import ValidationError
 class CrmDiagnosticLine(models.Model):
     _name = 'crm.diagnostic.line'
     _description = 'Líneas de diagnostico'
-   # _rec_name = 'area'
+    _rec_name = 'area'
 
     ANSWER_VALUES = {
-        'si': 5, 
+        'si': 5,
+        'en_proceso': 3,
         'no': 1,
-        'no_aplica': 0
+        'no_aplica': 0,
+        'totalmente_de_acuerdo': 5,
+        'de_acuerdo': 4,
+        'ni_de_acuerdo_ni_en_desacuerdo': 3,
+        'en_desacuerdo': 2,
+        'totalmente_en_desacuerdo': 1
     }
 
     TEXT_VALUATION = {
         1: 'Incipiente',
         2: 'Aceptable',
-        3: 'Confiable'
+        3: 'Confiable',
+        4: 'Competente',
+        5: 'Excelencia'
     }
 
 
@@ -32,6 +40,12 @@ class CrmDiagnosticLine(models.Model):
     )
     puntaje = fields.Char(
         string='Puntaje'
+    )
+    area = fields.Char(
+        string='Área'
+    )
+    sugerencia = fields.Char(
+        string='Sugerencia'
     )
     valoracion = fields.Char(
         string='Valoración'
