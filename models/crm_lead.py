@@ -168,15 +168,8 @@ class CrmLead(models.Model):
         'lead_id',
         string='CRM Diagnostic',
         copy=False)
-    mentors = fields.Many2many(
-        'res.partner',
-        string='Mentores',
-        readonly=True
-    )
-    coordinador = fields.Many2one(
-        'res.users',
-        string='Coordinador'
-    )
+
+   
     diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
