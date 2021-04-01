@@ -24,9 +24,7 @@ class CrmAttentionPlan(models.Model):
             ('competitividad', 'Nivel de competitividad'),
             ('incipiente', 'Incipiento'),
             ('aceptable', 'Aceptable'),
-            ('confiable', 'Confiable'),
-            ('competente', 'Competente'),
-            ('excelencia', 'Excelencia')],
+            ('confiable', 'Confiable')],
         string='Diagnostico'
     )
     #programa de entrenamiento
