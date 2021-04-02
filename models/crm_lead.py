@@ -14,9 +14,7 @@ _logger = logging.getLogger(__name__)
 RANGES = {
         'incipiente': range(0, 76),
         'aceptable': range(77, 152),
-        'confiable': range(153, 228),
-        'competente': range(229, 304),
-        'excelencia': range(305, 380)
+        'confiable': range(153, 228)
     }
 
 CRM_DIAGNOSTIC_SELECTION_FIELDS = {
@@ -30,20 +28,13 @@ ANSWER_VALUES = {
         'si': 5,
         'en_proceso': 3,
         'no': 1,
-        'no_aplica': 0,
-        'totalmente_de_acuerdo': 5,
-        'de_acuerdo': 4,
-        'ni_de_acuerdo_ni_en_desacuerdo': 3,
-        'en_desacuerdo': 2,
-        'totalmente_en_desacuerdo': 1
+        'no_aplica': 0
     }
 
 TEXT_VALUATION = {
         1: 'Incipiente',
         2: 'Aceptable',
-        3: 'Confiable',
-        4: 'Competente',
-        5: 'Excelencia'
+        3: 'Confiable'
     }
 
 SUGGEST_VALUATION = {
@@ -243,9 +234,7 @@ class CrmLead(models.Model):
             ('competitividad', 'Nivel de competitividad'),
             ('incipiente', 'Incipiento'),
             ('aceptable', 'Aceptable'),
-            ('confiable', 'Confiable'),
-            ('competente', 'Competente'),
-            ('excelencia', 'Excelencia')],
+            ('confiable', 'Confiable')],
         string='Diagnostico'
     )
   
@@ -428,64 +417,3 @@ class CrmLead(models.Model):
         }
 
 
-
-##########################################################################
-#                           ATTENTION PLAN METHODS
-##########################################################################
-    crm_attenation_plan_ids = fields.One2many(
-        'crm.attention.plan',
-        'lead_id',
-        copy=False)
-
-    # returning an action to go to crm.attention.plan form view related to lead
-    def call_action_crm_attention_plan(self):
-        for record in self:
-            # validating if it is necessary to create a new attention plan record or return the first on the list
-            if len(record.crm_attenation_plan_ids) > 0:
-               return record.action_to_return_to_crm_attention_plan(record.crm_attenation_plan_ids[0])
-            else:
-                if len(record.crm_lead_id) <= 0:
-                    # we avoid to execute the attention plan whether diagnostic haven't executed yet
-                    raise ValidationError('No puede realizar el plan de atención sin antes haber realizado el diagnostico.')
-                attention_plan_vals = record.getting_values_to_crm_attention_plan()
-                crm_attention_id = self.env['crm.attention.plan'].create(attention_plan_vals)
-                crm_attention_id.diagnostico = record.diagnostico
-            return record.action_to_return_to_crm_attention_plan(crm_attention_id)
-
-    # return a dic values for crm.diagnostic
-    def getting_values_to_crm_attention_plan(self):
-        for lead in self:
-            dic_vals = {
-                'lead_id': lead.id,
-                'nombre_negocio': lead.x_nombre_negocio,
-                'ubicacion': lead.x_dir_neg,
-                'fecha': fields.Date.today(),
-                'plan_line_ids': lead.get_attention_plan_lines()
-            }
-            return dic_vals
-
-    def get_attention_plan_lines(self):
-        lines = []
-        items = ['48 H', '1 Semana', '2 Semanas', '1 Mes', 'A futuro', 'Hábitos a desarrollar']
-        for item in items:
-            lines.append(
-                (0, 0, {
-                    'prioridad': item,
-                    'actividades': False,
-                    'soluciones': False,
-                    'reponsable': False,
-                }))
-        return lines
-
-    @api.model
-    def action_to_return_to_crm_attention_plan(self, crm_attention_id):
-        form_view = self.env.ref('crm_diagnostic.q_crm_attention_plan_form_view')
-        return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'crm.attention.plan',
-            'res_id': crm_attention_id.id,
-            'views': [(form_view.id, 'form')],
-            'view_id': form_view.id,
-            'target': 'current',
-        }

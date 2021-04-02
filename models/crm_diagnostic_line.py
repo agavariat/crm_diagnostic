@@ -13,20 +13,13 @@ class CrmDiagnosticLine(models.Model):
         'si': 5,
         'en_proceso': 3,
         'no': 1,
-        'no_aplica': 0,
-        'totalmente_de_acuerdo': 5,
-        'de_acuerdo': 4,
-        'ni_de_acuerdo_ni_en_desacuerdo': 3,
-        'en_desacuerdo': 2,
-        'totalmente_en_desacuerdo': 1
+        'no_aplica': 0
     }
 
     TEXT_VALUATION = {
         1: 'Incipiente',
         2: 'Aceptable',
-        3: 'Confiable',
-        4: 'Competente',
-        5: 'Excelencia'
+        3: 'Confiable'
     }
 
 
