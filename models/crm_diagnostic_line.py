@@ -47,7 +47,6 @@ class CrmDiagnosticLine(models.Model):
         'crm.diagnostic'
     )
 
-
     @api.model
     def create(self, values):
         return super(CrmDiagnosticLine, self).create(values)

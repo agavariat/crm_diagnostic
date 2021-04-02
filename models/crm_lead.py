@@ -10,7 +10,6 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
 RANGES = {
         'incipiente': range(0, 76),
         'aceptable': range(77, 152),
@@ -220,8 +219,7 @@ class CrmLead(models.Model):
         'lead_id',
         string='CRM Diagnostic',
         copy=False)
-    
-   
+      
     diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
@@ -231,8 +229,6 @@ class CrmLead(models.Model):
         string='Diagnostico'
     )
   
-    
-
     # returning an action to go to crm.diagnostic form view related to lead
     def action_crm_diagnostic_view(self):
         for record in self:
@@ -360,5 +356,3 @@ class CrmLead(models.Model):
             'target': 'current',
             'flags': {'mode': 'readonly', 'action_buttons': True},
         }
-
-

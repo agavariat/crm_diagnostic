@@ -15,7 +15,6 @@ import io
 
 _logger = logging.getLogger(__name__)
 
-
 class CrmDiagnostic(models.Model):
     _name = 'crm.diagnostic'
     _rec_name = 'nombre_negocio'
@@ -28,17 +27,17 @@ class CrmDiagnostic(models.Model):
     ubicacion = fields.Char(string="Ubicación")
     actividad_micronegocio = fields.Char(string="Actividad del Micronegocio")
     tipo_micronegocio = fields.Char(string="Tipo de Negocio")
-    numero_identificacion = fields.Char(string="Numero de Identificacion")
+    numero_identificacion = fields.Char(string="Número de Identificacion")
     codigo_formulario = fields.Char(string="Codigo de formulario")
     valoracion_micronegocio = fields.Char(string="Valoracion del Micronegocio")
-    diagnostico = fields.Text(string="Diagnostico")
+    diagnostico = fields.Text(string="Diagnóstico")
     valuacion_diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
             ('incipiente', 'Incipiento'),
             ('aceptable', 'Aceptable'),
             ('confiable', 'Confiable')],
-        string='Valuación de diagnostico'
+        string='Valuación de diagnóstico'
     )
     company_id = fields.Many2one(
         'res.company',
@@ -84,7 +83,6 @@ class CrmDiagnostic(models.Model):
                   lambda line : line.area == 'PRODUCCIÓN')
           )
         
-
     @api.model
     def remove_duplicate_suggest_lines(self, line_ids):
         # lines without suggestion
@@ -113,11 +111,9 @@ class CrmDiagnostic(models.Model):
         plt.yticks(y_pos, objects)
         plt.xlabel('Porcentaje')
         plt.title('Porcentaje de cumplimiento')
-
         plt.savefig(buf, format='png')
         plt.close()
         return buf.getvalue()
-
 
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
@@ -133,10 +129,8 @@ class CrmDiagnostic(models.Model):
             for line in diagnostic.crm_diagnostic_line_production_ids:
                 produccion += int(line.puntaje)
            
-
             data_chart = [bioseguridad, modelonegocio, produccion] 
-
-            
+      
             data2 = self.make_chart_barh([bioseguridad/0.75, modelonegocio/0.85, produccion/0.55])
             
             diagnostic.char_img_bar = base64.b64encode(data2)
