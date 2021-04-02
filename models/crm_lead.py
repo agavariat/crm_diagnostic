@@ -46,8 +46,16 @@ TEXT_VALUATION = {
         5: 'Excelencia'
     }
 
-
-
+SUGGEST_VALUATION = {
+    'x_proto1': {
+        1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
+        2: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
+        3: '',
+        4: '',
+        5: '',
+        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        }
+}
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
@@ -140,22 +148,28 @@ class CrmLead(models.Model):
                 answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
+                suggestion, area = self.get_sugestion(field.name, score)
                 lines.append(
                     (0, 0, {
                         'name': field.field_description,
                         'respuesta': answer,
                         'puntaje': score,
+                        'area': area,
+                        'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
             else:
                 answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
+                suggestion, area = self.get_sugestion(field.name, score)
                 lines.append(
                     (0, 0, {
                         'name': field.field_description,
                         'respuesta': answer,
                         'puntaje': score,
+                        'area': area,
+                        'sugerencia': suggestion,
                         'valoracion': valuation,
                         }))
             if score:
@@ -223,7 +237,17 @@ class CrmLead(models.Model):
         return events
 
     # returning area and suggestion base on field_name and score
-    
+    @api.model
+    def get_sugestion(self, field_name, score):
+        suggestion = False
+        area = False
+        # TODO if any param comes in False we immediatly return values in False
+        if not score or not field_name:
+            return suggestion, area
+        if field_name in SUGGEST_VALUATION:
+            suggestion = SUGGEST_VALUATION[field_name].get(score, False)
+            area = SUGGEST_VALUATION[field_name].get('area', False)
+        return suggestion, area
 
     @api.model
     def action_to_return_to_crm_diagnostic(self, crm_diagnostic_id):
