@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-6
 
 from . import crm_lead
 from . import crm_diagnostic
