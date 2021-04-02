@@ -220,15 +220,8 @@ class CrmLead(models.Model):
         'lead_id',
         string='CRM Diagnostic',
         copy=False)
-    mentors = fields.Many2many(
-        'res.partner',
-        string='Mentores',
-        readonly=True
-    )
-    coordinador = fields.Many2one(
-        'res.users',
-        string='Coordinador'
-    )
+    
+   
     diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
@@ -340,54 +333,6 @@ class CrmLead(models.Model):
             if score in v:
                 lead.diagnostico = k
 
-    # this method is called from cron
-    def relate_events_to_leads(self):
-        event_ids = self.available_events()
-        if not event_ids:
-            return
-        lead_ids = self.search(
-            [('mentors', '=', False),
-             ('diagnostico', 'in', ('confiable', 'competente', 'excelencia'))])
-        if not lead_ids:
-            return
-        for lead in lead_ids:
-            for event in event_ids.sorted(reverse=True):
-                # TODO
-                # we remove the current item of lead_ids and event_ids of their each object array
-                # because an opportunity has to be in an event
-                event.opportunity_id = lead.id
-                lead.mentors += event.partner_ids
-                self.send_mail_notification(lead)
-                event_ids -= event
-                lead_ids -= lead
-                break
-
-    # send email notification to coordinador and facilitador
-    @api.model
-    def send_mail_notification(self, lead_id):
-        try:
-            template_id = self.env.ref('crm_diagnostic.q_mail_template_event_notification')
-            template_id.send_mail(lead_id.id, force_send=True)
-        except Exception as e:
-            print(e)
-
-    # return events availables
-    def available_events(self):
-        week_days = range(0, 5)
-        date_to_search = fields.Date.today() + timedelta(days=1)
-        events =  self.env['calendar.event'].search(
-            ['|', ('start_date', '>=', date_to_search),
-             ('start_datetime', '>=', date_to_search),
-             ('opportunity_id', '=', False)])
-        for event in events:
-            # validate if we have to use start date or start date time to check the day of the week
-            if event.start_date:
-                if event.start_date.weekday() not in week_days:
-                    events -= event
-            else:
-                if event.start_datetime.weekday() not in week_days:
-                    events -= event
-        return events
 
     # returning area and suggestion base on field_name and score
     @api.model
