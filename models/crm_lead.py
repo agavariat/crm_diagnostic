@@ -39,175 +39,175 @@ TEXT_VALUATION = {
 SUGGEST_VALUATION = {
     'x_proto1': {
         1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto2': {
         1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto3': {
         1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto4': {
         1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto6': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto7': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto8': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto9': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto10': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto11': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto12': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto13': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto14': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto15': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_proto16': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'PROTOCOLOS DE BIOSEGURIDAD'
+        'area': 'HACER'
         },
     'x_model21': {
         1: 'Capacitar al propietario en el diseño del modelo de negocio.',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model22': {
         1: 'Capacitar al propietario en el diseño del modelo de negocio.',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model23': {
         1: 'Capacitar al propietario del negocio sobre los canales de distribución y definir cuál es el más adecuado para el producto o servicio',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model24': {
         1: '',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model25': {
         1: 'Determinar los conocimiento y habilidades que requieren los trabajadores para laborar en el micronegocio',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model26': {
         1: 'Acompañamiento en programas de manipulación de alimentos',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model27': {
         1: 'Capacitar al propietario del negocio en seguridad y salud en el trabajo',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model28': {
         1: 'Definir procedimientos, instrucciones y normas que se deben tener para producir alimentos saludables',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model29': {
         1: 'Acompañamiento en la búsqueda y selección de proveedores que mejor se adecuen a las necesidades del negocio',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model30': {
         1: 'Orientar al personal sobre los beneficios que puede obtener en cada uno de los pagos.',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model31': {
         1: 'Capacitar al propietario del negocio en proyecciones de compra.',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model32': {
         1: 'Acompañamiento en la definición de procesos estandarizado para la producción o manipulación del producto',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model33': {
         1: 'Acompañamiento en la definición de proceso estandarizado para la producción o manipulación del producto',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model34': {
         1: 'Acompañamiento en la definición de controles de existencias, que permitan conocer los productos de mayor demanda y realizar compras inteligentes.',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model35': {
         1: 'Acompañamiento para el diseño de instrumentos que les permita tener los registro de las entradas y salidas para mayor control de los inventarios.',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model36': {
         1: '',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_model37': {
         1: '',
-        'area': 'MODELO DE NEGOCIO'
+        'area': 'VERIFICAR'
         },
     'x_innova24': {
         1: 'Capacitar al propietario en la identificación de costos y gastos propios del negocio.',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_innova25': {
         1: '',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_innova26': {
         1: 'Capacitar al propietario en la definición del punto de equilibrio del negocio.',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_innova27': {
         1: 'Capacitar al propietario en la definición del punto de equilibrio del negocio.',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_prodl42': {
         1: 'Acompañamiento en diseño modelo de negocio innovador',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_prodl43': {
         1: 'Diseñar un plan de formación para los trabajadores',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_innova29': {
         1: 'Apoyo en el diseño de la cultura organizacional',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_innova33': {
         1: 'Formar al propietario en creatividad e innovación',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_prodl46': {
         1: 'Acompañamiento en diseño modelo de negocio innovador',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_prodl47': {
         1: 'Acompañamiento en diseño modelo de negocio innovador',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
     'x_innova39': {
         1: '',
-        'area': 'PRODUCCIÓN'
+        'area': 'ACTUAR'
         },
 }
 class CrmLead(models.Model):

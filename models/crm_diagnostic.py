@@ -72,15 +72,15 @@ class CrmDiagnostic(models.Model):
       for record in self:
           record.crm_diagnostic_line_orientation_ids = self.remove_duplicate_suggest_lines(
               record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'PROTOCOLOS DE BIOSEGURIDAD')
+                  lambda line : line.area == 'HACER')
           )
           record.crm_diagnostic_line_business_model_ids = self.remove_duplicate_suggest_lines(
               record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'MODELO DE NEGOCIO')
+                  lambda line : line.area == 'VERIFICAR')
           )
           record.crm_diagnostic_line_production_ids = self.remove_duplicate_suggest_lines(
               record.crm_diagnostic_line_ids.filtered(
-                  lambda line : line.area == 'PRODUCCIÓN')
+                  lambda line : line.area == 'ACTUAR')
           )
         
     @api.model
@@ -102,7 +102,7 @@ class CrmDiagnostic(models.Model):
 
     def make_chart_barh(self, data):
         buf = io.BytesIO()
-        objects = ['Protocolo de \n Bioseguridad', 'Modelo \n de Negocio', 'Producción']
+        objects = ['Hacer', 'Verificar', 'Actuar']
         y_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
@@ -110,7 +110,7 @@ class CrmDiagnostic(models.Model):
         plt.barh(y_pos, performance, align='center', alpha=0.5)
         plt.yticks(y_pos, objects)
         plt.xlabel('Porcentaje')
-        plt.title('Porcentaje de cumplimiento')
+        plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
         plt.close()
         return buf.getvalue()
@@ -118,20 +118,20 @@ class CrmDiagnostic(models.Model):
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
         for diagnostic in self:
-            bioseguridad = 0
-            modelonegocio = 0
-            produccion = 0
+            hacer = 0
+            verificar = 0
+            actuar = 0
 
             for line in diagnostic.crm_diagnostic_line_orientation_ids:
-                bioseguridad += int(line.puntaje)
+                hacer += int(line.puntaje)
             for line in diagnostic.crm_diagnostic_line_business_model_ids:
-                modelonegocio += int(line.puntaje)
+                verificar += int(line.puntaje)
             for line in diagnostic.crm_diagnostic_line_production_ids:
-                produccion += int(line.puntaje)
+                actuar += int(line.puntaje)
            
-            data_chart = [bioseguridad, modelonegocio, produccion] 
+            data_chart = [hacer, verificar, actuar] 
       
-            data2 = self.make_chart_barh([bioseguridad/0.75, modelonegocio/0.85, produccion/0.55])
+            data2 = self.make_chart_barh([hacer/0.75, verificar/0.85, actuar/0.55])
             
             diagnostic.char_img_bar = base64.b64encode(data2)
 
