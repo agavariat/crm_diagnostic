@@ -17,25 +17,5 @@
         </field>
     </record>
 
-    <!-- inherit crm.stage from crm-->
-    <record id="q_inherit_crm_stage_form_view" model="ir.ui.view">
-        <field name="name">q.inherit.crm.stage.form.view</field>
-        <field name="model">crm.stage</field>
-        <field name="inherit_id" ref="crm.crm_stage_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='is_won']" position="before">
-                <field name="stage_state"/>
-            </xpath>
-        </field>
-    </record>
-
-    <!-- inherit crm.lead from crm_uni_forms-->
-    <record id="q_inherit_crm_case_form_view_oppor_inherit_product" model="ir.ui.view">
-        <field name="name">q.inherit.crm.case.form.view.oppor.inherit.product</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm_uni_forms.crm_case_form_view_oppor_inherit_product"/>
-        <field name="arch" type="xml">
-        </field>
-    </record>
-
+    
 </odoo>
