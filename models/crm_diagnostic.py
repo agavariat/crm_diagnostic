@@ -20,7 +20,6 @@ class CrmDiagnostic(models.Model):
     _name = 'crm.diagnostic'
     _rec_name = 'nombre_negocio'
 
-
     lead_id = fields.Many2one('crm.lead')
     fecha = fields.Date("Fecha")
     nombre_negocio = fields.Char(string="Nombre del Negocio")
@@ -83,9 +82,6 @@ class CrmDiagnostic(models.Model):
     crm_diagnostic_line_finance_ids = fields.One2many(
         'crm.diagnostic.line',
         compute='_get_lines_for_areas')
-
-    #diagnostic_chart = fields.Char(
-    #    compute='_get_chart', store=False)
 
     diagnostic_chart = fields.Html(
         compute='_get_chart', store=True, sanitize=False)
@@ -187,7 +183,6 @@ class CrmDiagnostic(models.Model):
         plt.close()
         return buf.getvalue()
 
-
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
         for diagnostic in self:
@@ -218,7 +213,6 @@ class CrmDiagnostic(models.Model):
                 finanzas += int(line.puntaje)
 
             data_chart = [bioseguridad, modelonegocio, produccion, innovacion, formalizacon, organizacion, mercadeo, finanzas] 
-
 
             data = self.make_chart_radar(data_chart)
             data2 = self.make_chart_barh([bioseguridad/0.75, modelonegocio/0.85, produccion/0.55, innovacion/0.25, formalizacon/0.30, organizacion/0.40, mercadeo/0.70, finanzas/0.45])
