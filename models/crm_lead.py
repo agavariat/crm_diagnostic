@@ -11,9 +11,11 @@ import logging
 _logger = logging.getLogger(__name__)
 
 RANGES = {
+        'incipiente': range(0, 76),
+        'aceptable': range(77, 152),
+        'confiable': range(153, 228)
+    }
         
-        
-
 CRM_DIAGNOSTIC_SELECTION_FIELDS = {
     'doctype': 'tipo_documento',
     'x_ubic': 'ubicacion',
