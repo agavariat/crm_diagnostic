@@ -157,62 +157,6 @@ SUGGEST_VALUATION = {
         1: 'Acompañamiento en la definición de controles de existencias, que permitan conocer los productos de mayor demanda y realizar compras inteligentes.',
         'area': 'ACTUAR'
         },
-    'x_model35': {
-        1: 'Acompañamiento para el diseño de instrumentos que les permita tener los registro de las entradas y salidas para mayor control de los inventarios.',
-        'area': 'VERIFICAR'
-        },
-    'x_model36': {
-        1: '',
-        'area': 'VERIFICAR'
-        },
-    'x_model37': {
-        1: '',
-        'area': 'VERIFICAR'
-        },
-    'x_innova24': {
-        1: 'Capacitar al propietario en la identificación de costos y gastos propios del negocio.',
-        'area': 'ACTUAR'
-        },
-    'x_innova25': {
-        1: '',
-        'area': 'ACTUAR'
-        },
-    'x_innova26': {
-        1: 'Capacitar al propietario en la definición del punto de equilibrio del negocio.',
-        'area': 'ACTUAR'
-        },
-    'x_innova27': {
-        1: 'Capacitar al propietario en la definición del punto de equilibrio del negocio.',
-        'area': 'ACTUAR'
-        },
-    'x_prodl42': {
-        1: 'Acompañamiento en diseño modelo de negocio innovador',
-        'area': 'ACTUAR'
-        },
-    'x_prodl43': {
-        1: 'Diseñar un plan de formación para los trabajadores',
-        'area': 'ACTUAR'
-        },
-    'x_innova29': {
-        1: 'Apoyo en el diseño de la cultura organizacional',
-        'area': 'ACTUAR'
-        },
-    'x_innova33': {
-        1: 'Formar al propietario en creatividad e innovación',
-        'area': 'ACTUAR'
-        },
-    'x_prodl46': {
-        1: 'Acompañamiento en diseño modelo de negocio innovador',
-        'area': 'ACTUAR'
-        },
-    'x_prodl47': {
-        1: 'Acompañamiento en diseño modelo de negocio innovador',
-        'area': 'ACTUAR'
-        },
-    'x_innova39': {
-        1: '',
-        'area': 'ACTUAR'
-        },
 }
 class CrmLead(models.Model):
     _inherit = 'crm.lead'

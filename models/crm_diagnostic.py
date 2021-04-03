@@ -47,6 +47,9 @@ class CrmDiagnostic(models.Model):
         'crm.diagnostic.line',
         'diagnostic_id',
     )
+    crm_diagnostic_line_innovation_ids = fields.One2many(
+        'crm.diagnostic.line',
+        compute='_get_lines_for_areas')
     # records for Orientaciones de bioseguridad
     crm_diagnostic_line_orientation_ids = fields.One2many(
         'crm.diagnostic.line',
