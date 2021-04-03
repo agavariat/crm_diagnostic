@@ -11,10 +11,8 @@ import logging
 _logger = logging.getLogger(__name__)
 
 RANGES = {
-        'incipiente': range(0, 76),
-        'aceptable': range(77, 152),
-        'confiable': range(153, 228)
-    }
+        
+        
 
 CRM_DIAGNOSTIC_SELECTION_FIELDS = {
     'doctype': 'tipo_documento',
@@ -39,51 +37,51 @@ TEXT_VALUATION = {
 SUGGEST_VALUATION = {
     'x_proto1': {
         1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto2': {
         1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto3': {
         1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto4': {
         1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto6': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto7': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto8': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto9': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto10': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto11': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto12': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto13': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
+        'area': 'PLANEAR'
         },
     'x_proto14': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
@@ -97,41 +95,45 @@ SUGGEST_VALUATION = {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
         'area': 'HACER'
         },
+    'x_proto17': {
+        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
+        'area': 'HACER'
+        },
     'x_model21': {
         1: 'Capacitar al propietario en el diseño del modelo de negocio.',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model22': {
         1: 'Capacitar al propietario en el diseño del modelo de negocio.',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model23': {
         1: 'Capacitar al propietario del negocio sobre los canales de distribución y definir cuál es el más adecuado para el producto o servicio',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model24': {
         1: '',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model25': {
         1: 'Determinar los conocimiento y habilidades que requieren los trabajadores para laborar en el micronegocio',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model26': {
         1: 'Acompañamiento en programas de manipulación de alimentos',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model27': {
         1: 'Capacitar al propietario del negocio en seguridad y salud en el trabajo',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model28': {
         1: 'Definir procedimientos, instrucciones y normas que se deben tener para producir alimentos saludables',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model29': {
         1: 'Acompañamiento en la búsqueda y selección de proveedores que mejor se adecuen a las necesidades del negocio',
-        'area': 'VERIFICAR'
+        'area': 'HACER'
         },
     'x_model30': {
         1: 'Orientar al personal sobre los beneficios que puede obtener en cada uno de los pagos.',
@@ -147,11 +149,11 @@ SUGGEST_VALUATION = {
         },
     'x_model33': {
         1: 'Acompañamiento en la definición de proceso estandarizado para la producción o manipulación del producto',
-        'area': 'VERIFICAR'
+        'area': 'ACTUAR'
         },
     'x_model34': {
         1: 'Acompañamiento en la definición de controles de existencias, que permitan conocer los productos de mayor demanda y realizar compras inteligentes.',
-        'area': 'VERIFICAR'
+        'area': 'ACTUAR'
         },
     'x_model35': {
         1: 'Acompañamiento para el diseño de instrumentos que les permita tener los registro de las entradas y salidas para mayor control de los inventarios.',

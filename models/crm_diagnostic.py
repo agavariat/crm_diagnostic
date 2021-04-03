@@ -70,6 +70,10 @@ class CrmDiagnostic(models.Model):
     @api.depends('crm_diagnostic_line_ids')
     def _get_lines_for_areas(self):
       for record in self:
+          record.crm_diagnostic_line_innovation_ids = self.remove_duplicate_suggest_lines(
+              record.crm_diagnostic_line_ids.filtered(
+                  lambda line : line.area == 'PLANEAR')
+          )         
           record.crm_diagnostic_line_orientation_ids = self.remove_duplicate_suggest_lines(
               record.crm_diagnostic_line_ids.filtered(
                   lambda line : line.area == 'HACER')
@@ -102,7 +106,7 @@ class CrmDiagnostic(models.Model):
 
     def make_chart_barh(self, data):
         buf = io.BytesIO()
-        objects = ['Hacer', 'Verificar', 'Actuar']
+        objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         y_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
@@ -118,10 +122,14 @@ class CrmDiagnostic(models.Model):
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
         for diagnostic in self:
+            planear = 0
             hacer = 0
             verificar = 0
             actuar = 0
 
+
+            for line in diagnostic.crm_diagnostic_line_innovation_ids:
+                planear += int(line.puntaje)
             for line in diagnostic.crm_diagnostic_line_orientation_ids:
                 hacer += int(line.puntaje)
             for line in diagnostic.crm_diagnostic_line_business_model_ids:
@@ -129,9 +137,9 @@ class CrmDiagnostic(models.Model):
             for line in diagnostic.crm_diagnostic_line_production_ids:
                 actuar += int(line.puntaje)
            
-            data_chart = [hacer, verificar, actuar] 
+            data_chart = [planear, hacer, verificar, actuar] 
       
-            data2 = self.make_chart_barh([hacer/0.75, verificar/0.85, actuar/0.55])
+            data2 = self.make_chart_barh([planear/0.1, hacer/0.75, verificar/0.85, actuar/0.55])
             
             diagnostic.char_img_bar = base64.b64encode(data2)
 
