@@ -11,9 +11,9 @@ import logging
 _logger = logging.getLogger(__name__)
 
 RANGES = {
-        'incipiente': range(0, 76),
-        'aceptable': range(77, 152),
-        'confiable': range(153, 228)
+        'incipiente': range(0, 90),
+        'aceptable': range(91, 129),
+        'confiable': range(130, 150)
     }
         
 CRM_DIAGNOSTIC_SELECTION_FIELDS = {
@@ -270,8 +270,8 @@ class CrmLead(models.Model):
     # set diagnostico based on range
     @api.model
     def set_diagnostico(self, score, lead):
-        if score > 380:
-            lead.diagnostico = 'excelencia'
+        if score > 150:
+            lead.diagnostico = 'confiable'
             return
         for k, v in RANGES.items():
             if score in v:
