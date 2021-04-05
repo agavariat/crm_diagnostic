@@ -11,8 +11,8 @@ class CrmDiagnosticLine(models.Model):
 
     ANSWER_VALUES = {
         'si': 5,
-        'en_proceso': 3,
-        'no': 1,
+        'en_proceso': 0,
+        'no': 0,
         'no_aplica': 0
     }
 
