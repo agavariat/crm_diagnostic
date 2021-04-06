@@ -31,13 +31,6 @@ class CrmDiagnostic(models.Model):
     codigo_formulario = fields.Char(string="Codigo de formulario")
     valoracion_micronegocio = fields.Char(string="Valoracion del Micronegocio")
     diagnostico = fields.Text(strint="Diagnóstico") 
-   # #score = fields.Integer(string="Score")
-    #puntaje = fields.Integer(string="Puntaje")
-    #planear = fields.Integer(string="Planear")
-    #hacer = fields.Integer(string="Hacer")
-    #verificar = fields.Integer(string="Verificar")
-    #actuar = fields.Integer(string="Actuar")
-    
     valuacion_diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
@@ -123,23 +116,14 @@ class CrmDiagnostic(models.Model):
         x_pos = np.arange(len(objects))
         performance = data
         #reference = (65, 60, 15, 10)
-        plt.figure(figsize =(12, 6))
+        plt.figure(figsize =(10, 6))
         plt.ylim(0, 70)
         #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
         #plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
         #plt.xticks(x_pos, objects)
-        #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
         plt.bar(x_pos, performance, align='center', alpha=0.5)
         plt.xticks(x_pos, objects)
-        #plt.legend(gender, loc=2)
         #plt.legend(x_pos, ['Nivel esperado', 'Nivel obtenido'])
-       # for rect in rects:
-       #     height = rect.get_height()
-       #     plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
-       #        '%d' % int(height),
-       #        ha='center', va='bottom')
-       #for index, value in enumerate(x_pos):
-       #    plt.text(value, index, str(value))
         plt.ylabel('Puntaje', fontsize=16)
         plt.title('Nivel de la Empresa', fontsize=18)
         plt.savefig(buf, format='png')
@@ -154,7 +138,6 @@ class CrmDiagnostic(models.Model):
             verificar = 0
             actuar = 0
 
-
             for line in diagnostic.crm_diagnostic_line_innovation_ids:
                 planear += int(line.puntaje)
             for line in diagnostic.crm_diagnostic_line_orientation_ids:
@@ -164,13 +147,11 @@ class CrmDiagnostic(models.Model):
             for line in diagnostic.crm_diagnostic_line_production_ids:
                 actuar += int(line.puntaje)
            
-            data_chart = [planear, hacer, verificar, actuar] 
-      
-          
+            #data_chart = [planear, hacer, verificar, actuar] 
+        
             data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
             diagnostic.char_img_bar = base64.b64encode(data2)
             
-
     @api.model
     def create(self, vals):
         context = dict(self.env.context)
