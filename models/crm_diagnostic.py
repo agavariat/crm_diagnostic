@@ -31,7 +31,7 @@ class CrmDiagnostic(models.Model):
     codigo_formulario = fields.Char(string="Codigo de formulario")
     valoracion_micronegocio = fields.Char(string="Valoracion del Micronegocio")
     diagnostico = fields.Text(strint="Diagnóstico") 
-    #score = fields.Integer(string="Score")
+   # #score = fields.Integer(string="Score")
     #puntaje = fields.Integer(string="Puntaje")
     #planear = fields.Integer(string="Planear")
     #hacer = fields.Integer(string="Hacer")
