@@ -30,7 +30,8 @@ class CrmDiagnostic(models.Model):
     numero_identificacion = fields.Char(string="Número de Identificacion")
     codigo_formulario = fields.Char(string="Codigo de formulario")
     valoracion_micronegocio = fields.Char(string="Valoracion del Micronegocio")
-    diagnostico = fields.Text(string="Diagnóstico")
+    diagnostico = fields.Text(strint="Diagnóstico")
+    score = fields.Text(string="Puntaje")
     valuacion_diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
@@ -116,10 +117,6 @@ class CrmDiagnostic(models.Model):
         plt.xlim(0, 100)
         plt.barh(y_pos, performance, align='center', alpha=0.5)
         plt.yticks(y_pos, objects)
-        for value in y_pos:
-            height = value.get_height()
-            plt.text(value.get_x() + value.get_width()/2.,
-                     1.002*height,'%d' % int(height), ha='center', va='bottom')
         plt.xlabel('Porcentaje')
         plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
