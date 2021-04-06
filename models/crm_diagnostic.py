@@ -120,22 +120,20 @@ class CrmDiagnostic(models.Model):
         width = 0.5
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        ###objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
         reference = (65, 60, 15, 10)
         plt.figure(figsize =(12, 6))
         plt.ylim(0, 65)
-        rect1 = plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b', label='Nivel Esperado')
-        rect2 = plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g', label='Nivel Obtenido')
-        plt.xticks(x_pos, objects)
+        plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b', label='Nivel Esperado')
+        plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g', label='Nivel Obtenido')
+        plt.xticks(x_pos, objects, width/2)
        # for rect in rects:
        #     height = rect.get_height()
        #     plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
        #        '%d' % int(height),
        #        ha='center', va='bottom')
-        plt.bar_label(rect1, padding=3)
-        plt.bar_label(rect2, padding=3)
+        
         plt.ylabel('Puntaje')
         plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
