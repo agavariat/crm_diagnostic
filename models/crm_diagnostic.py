@@ -109,6 +109,7 @@ class CrmDiagnostic(models.Model):
         else:
             return self.env['crm.diagnostic.line']
 
+
     def make_chart_barh(self, data):
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
@@ -116,8 +117,11 @@ class CrmDiagnostic(models.Model):
         performance = data
         plt.figure(figsize =(10, 6))
         plt.xlim(0, 100)
-        plt.barh(y_pos, performance, align='center', alpha=0.5)
+        plt.barh(y_pos, performance, align='center', alpha=0.5, height=y, width=.4)
         plt.yticks(y_pos, objects)
+        for bar in barh:
+            yval = bar.get_height()
+            plt.text(bar.get_y_pos(), yval + .005, yval)
         plt.xlabel('Porcentaje')
         plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
