@@ -177,7 +177,7 @@ class CrmLead(models.Model):
         string='Diagnostico'
     )
   
-    # returning an action to go to crm.diagnostic form view related to lead
+    # returning an action to go to crm.diagnostic form view related to lead #
     def action_crm_diagnostic_view(self):
         for record in self:
             # validating if it is necessary to create a new diagnistic record or return the first on the list
