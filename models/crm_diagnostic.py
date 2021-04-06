@@ -116,14 +116,17 @@ class CrmDiagnostic(models.Model):
 
 
     def make_chart_barh(self, data):
+        width = 0.35
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         #objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         y_pos = np.arange(len(objects))
         performance = data
+        reference = (65, 60, 15, 10)
         plt.figure(figsize =(10, 6))
         plt.xlim(0, 100)
         plt.barh(y_pos, performance, align='center', alpha=0.5)
+        plt.barhh(y_pos + width, reference, , align='center', alpha=0.5)
         plt.yticks(y_pos, objects)
         #for bar in bars:
         #    xval = bar.get_height()
@@ -155,6 +158,7 @@ class CrmDiagnostic(models.Model):
             data_chart = [planear, hacer, verificar, actuar] 
       
             data2 = self.make_chart_barh([planear/1.50, hacer/1.50, verificar/1.50, actuar/1.50])
+            #data3 = self.make_chart_barh(65, 60, 15, 10])
             
             diagnostic.char_img_bar = base64.b64encode(data2)
 
