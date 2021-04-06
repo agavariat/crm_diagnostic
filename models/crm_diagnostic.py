@@ -117,7 +117,7 @@ class CrmDiagnostic(models.Model):
         performance = data
         plt.figure(figsize =(10, 6))
         plt.xlim(0, 100)
-        bars = plt.barh(y_pos, performance, align='center', alpha=0.5, height=y, width=.4)
+        bars = plt.bar(y_pos, performance, align='center', alpha=0.5, height=y_pos, width=.4)
         plt.yticks(y_pos, objects)
         for bar in bars:
             yval = bar.get_height()
