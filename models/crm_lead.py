@@ -53,6 +53,10 @@ SUGGEST_VALUATION = {
         1: 'Buscar proyectos y programas públicos y privados que subsidien o faciliten la obtención de tapabocas y elementos de protección para el micronegocio',
         'area': 'PLANEAR'
         },
+    'x_proto5': {
+        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
+        'area': 'PLANEAR'
+        },
     'x_proto6': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
         'area': 'PLANEAR'
@@ -94,10 +98,6 @@ SUGGEST_VALUATION = {
         'area': 'HACER'
         },
     'x_proto16': {
-        1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
-        'area': 'HACER'
-        },
-    'x_proto17': {
         1: 'Capacitación e implementación en protocolos de bioseguridad para el funcionamiento seguro del micronegocio',
         'area': 'HACER'
         },
