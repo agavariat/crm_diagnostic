@@ -19,11 +19,15 @@
                                 <field name="lead_id" invisible="1"/>
                                 <field name="nombre_negocio" string="Nombre del Negocio" /> 
                                 <field name="fecha" string="Fecha"/>
+                                 <field name="puntaje"/>
                             </group>
                             <group>
                                 <field name="diagnostico"/>
                                 <field name="valuacion_diagnostico"/>
-                                <field name="puntaje"/>
+                                <field name="planear"/>
+                                <field name="hacer"/>
+                                <field name="verificar"/>
+                                <field name="actuar"/>
                             </group>
                         </group>
                         <group>
