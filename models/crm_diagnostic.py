@@ -146,10 +146,10 @@ class CrmDiagnostic(models.Model):
         x_pos = np.arange(len(objects))
         performance = data
         reference = (65, 60, 15, 10)
-        plt.figure(figsize =(20, 7))
+        plt.figure(figsize =(12, 6))
         plt.ylim(0, 65)
-        plt.bar(x_pos, width, reference, alpha=0.5)
-        plt.bar(x_pos + width, performance, width, align='center', alpha=0.5, color='g')
+        plt.bar(x_pos, reference, width, alpha=0.5)
+        plt.bar(x_pos + width, performance, width, alpha=0.5, color='g')
         plt.xticks(x_pos, objects)
        # for rect in rects:
        #     height = rect.get_height()
