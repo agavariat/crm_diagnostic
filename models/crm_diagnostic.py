@@ -31,7 +31,8 @@ class CrmDiagnostic(models.Model):
     codigo_formulario = fields.Char(string="Codigo de formulario")
     valoracion_micronegocio = fields.Char(string="Valoracion del Micronegocio")
     diagnostico = fields.Text(strint="Diagnóstico")
-    score = fields.Text(string="Puntaje")
+    score = fields.Text(string="Score")
+    puntaje = fields.Text(string="Puntaje")
     valuacion_diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),

@@ -23,7 +23,7 @@
                             <group>
                                 <field name="diagnostico"/>
                                 <field name="valuacion_diagnostico"/>
-                                <field name="score"/>
+                                <field name="puntaje"/>
                             </group>
                         </group>
                         <group>
