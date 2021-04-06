@@ -137,10 +137,10 @@ class CrmDiagnostic(models.Model):
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
-        reference = (65, 60, 15, 10)
+        #reference = (65, 60, 15, 10)
         plt.figure(figsize =(10, 6))
         plt.ylim(0, 100)
-        plt.bar(x_pos, reference, width, alpha=0.5, color='b')
+        #plt.bar(x_pos, reference, width, alpha=0.5, color='b')
         plt.bar(x_pos, performance, width, alpha=0.5, color='g')
         #plt.bar(x_pos, performance, align='center', alpha=0.5)
         plt.xticks(x_pos, objects)
