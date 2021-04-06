@@ -31,12 +31,12 @@ class CrmDiagnostic(models.Model):
     codigo_formulario = fields.Char(string="Codigo de formulario")
     valoracion_micronegocio = fields.Char(string="Valoracion del Micronegocio")
     diagnostico = fields.Text(strint="Diagnóstico")
-    score = fields.Integer(string="Score")
-    puntaje = fields.Integer(string="Puntaje")
-    planear = fields.Integer(string="Planear")
-    hacer = fields.Integer(string="Hacer")
-    verificar = fields.Integer(string="Verificar")
-    actuar = fields.Integer(string="Actuar")
+    #score = fields.Integer(string="Score")
+    #puntaje = fields.Integer(string="Puntaje")
+    #planear = fields.Integer(string="Planear")
+    #hacer = fields.Integer(string="Hacer")
+    #verificar = fields.Integer(string="Verificar")
+    #actuar = fields.Integer(string="Actuar")
     valuacion_diagnostico = fields.Selection(
         selection=[
             ('competitividad', 'Nivel de competitividad'),
@@ -117,6 +117,7 @@ class CrmDiagnostic(models.Model):
     def make_chart_barh(self, data):
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
+        objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         y_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
