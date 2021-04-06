@@ -67,7 +67,7 @@ class CrmDiagnostic(models.Model):
         compute='_get_chart', store=True, sanitize=False)
     char_img = fields.Binary(compute='_get_chart', store=True,)
     char_img_bar = fields.Binary(compute='_get_chart', store=True,)
-    #char_img_barx = fields.Binary(compute='_get_chart', store=True,)
+    char_img_barx = fields.Binary(compute='_get_chart', store=True,)
     diagnostic_chart_two = fields.Char(
     compute='_get_chart', store=True)
 
@@ -137,19 +137,21 @@ class CrmDiagnostic(models.Model):
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
-        #reference = (65, 60, 15, 10)
         plt.figure(figsize =(10, 6))
-        plt.ylim(0, 100)
-        #plt.bar(x_pos, reference, width, alpha=0.5, color='b')
+        plt.ylim(0, 70)
         plt.bar(x_pos, performance, width, alpha=0.5, color='g')
-        #plt.bar(x_pos, performance, align='center', alpha=0.5)
         plt.xticks(x_pos, objects)
-        plt.ylabel('Porcentaje')
-        plt.title('Porcentaje de cumplimiento')
-
+        plt.legend(labels =('Puntaje Maximo', 'Puntaje Obtenido'),loc = 3)
+        plt.ylabel('Puntaje', fontsize=16)
+        plt.title('Nivel de la Empresa', fontsize=18)
         plt.savefig(buf, format='png')
         plt.close()
-        return buf.getvalue()    
+        return buf.getvalue()  
+
+    
+
+
+
 
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
@@ -169,9 +171,11 @@ class CrmDiagnostic(models.Model):
                 actuar += int(line.puntaje)
            
             #data_chart = [planear, hacer, verificar, actuar] 
-        
+            
             data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
+            #data3 = self.make_chart_bar([planear, hacer, verificar, actuar])
             diagnostic.char_img_bar = base64.b64encode(data2)
+
             
     @api.model
     def create(self, vals):
