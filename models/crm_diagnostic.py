@@ -130,11 +130,14 @@ class CrmDiagnostic(models.Model):
         plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g', label='Nivel Obtenido')
         plt.xticks(x_pos, objects)
         #plt.legend(gender, loc=2)
+        plt.legend(x_pos, ['Nivel esperado', 'Nivel obtenido'])
        # for rect in rects:
        #     height = rect.get_height()
        #     plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
        #        '%d' % int(height),
        #        ha='center', va='bottom')
+       for index, value in enumerate(x_pos):
+           plt.text(value, index, str(value))
         
         plt.ylabel('Puntaje', fontsize=16)
         plt.title('Nivel de la Empresa', fontsize=18)
