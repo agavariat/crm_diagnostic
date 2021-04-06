@@ -115,27 +115,27 @@ class CrmDiagnostic(models.Model):
             return self.env['crm.diagnostic.line']
 
 
-    def make_chart_barh(self, data):
-        width = 0.5
-        buf = io.BytesIO()
-        objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
+   # def make_chart_barh(self, data):
+  #      width = 0.5
+  #      buf = io.BytesIO()
+  #      objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         ###objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        y_pos = np.arange(len(objects))
-        performance = data
-        reference = (65, 60, 15, 10)
-        plt.figure(figsize =(16, 8))
-        plt.xlim(0, 100)
-        plt.barh(y_pos, performance, align='center', alpha=0.5)
-        plt.barh(y_pos + width, reference, alpha=0.5)
-        plt.yticks(y_pos, objects)
+  #      y_pos = np.arange(len(objects))
+  #      performance = data
+  #      reference = (65, 60, 15, 10)
+   #     plt.figure(figsize =(16, 8))
+   #     plt.xlim(0, 100)
+   #     plt.barh(y_pos, performance, align='center', alpha=0.5)
+   #     plt.barh(y_pos + width, reference, alpha=0.5)
+   #     plt.yticks(y_pos, objects)
         #for bar in bars:
         #    xval = bar.get_height()
         #    plt.text(bar.get_y_pos(), xval + .005, xval)
-        plt.xlabel('Puntaje')
-        plt.title('Nivel de la Empresa')
-        plt.savefig(buf, format='png')
-        plt.close()
-        return buf.getvalue()
+   #     plt.xlabel('Puntaje')
+   #     plt.title('Nivel de la Empresa')
+   #     plt.savefig(buf, format='png')
+   #     plt.close()
+   #     return buf.getvalue()
 
     def make_chart_bar(self, data):
         width = 0.5
@@ -179,9 +179,9 @@ class CrmDiagnostic(models.Model):
            
             data_chart = [planear, hacer, verificar, actuar] 
       
-            data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
+           # data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
             data3 = self.make_chart_bar([planear, hacer, verificar, actuar])
-            diagnostic.char_img_bar = base64.b64encode(data2)
+            #diagnostic.char_img_bar = base64.b64encode(data2)
             diagnostic.char_img_barx = base64.b64encode(data3)
             
 
