@@ -124,16 +124,16 @@ class CrmDiagnostic(models.Model):
         performance = data
         reference = (65, 60, 15, 10)
         plt.figure(figsize =(12, 6))
-        plt.ylim(0, 65)
+        plt.ylim(0, 70)
         plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b', label='Nivel Esperado')
         plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g', label='Nivel Obtenido')
-        plt.xticks(x_pos + width, objects)
+        plt.xticks(x_pos + width/2, objects)
        # for rect in rects:
        #     height = rect.get_height()
        #     plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
        #        '%d' % int(height),
        #        ha='center', va='bottom')
-        
+        #ptl.
         plt.ylabel('Puntaje')
         plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
