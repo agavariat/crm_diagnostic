@@ -133,12 +133,14 @@ class CrmDiagnostic(models.Model):
 
     def make_chart_bar(self, data):
         #width = 0.5
+        reference = (65, 60, 15, 10)
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
         plt.ylim(0, 70)
+        plt.bar(x_pos, reference, alpha=0.5, color='b')
         plt.bar(x_pos, performance, alpha=0.5, color='g')
         plt.xticks(x_pos, objects)
         plt.legend(labels =('Puntaje Maximo', 'Puntaje Obtenido'),loc = 1)
