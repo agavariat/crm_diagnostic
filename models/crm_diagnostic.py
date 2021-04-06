@@ -116,28 +116,6 @@ class CrmDiagnostic(models.Model):
             return self.env['crm.diagnostic.line']
 
 
-   # def make_chart_barh(self, data):
-    #    width = 0.5
-     #   buf = io.BytesIO()
-      #  objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        ###objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-       # y_pos = np.arange(len(objects))
-        #performance = data
-        #reference = (65, 60, 15, 10)
-        #plt.figure(figsize =(20, 7))
-        #plt.xlim(0, 65)
-        #plt.barh(y_pos, reference, width, alpha=0.5, color='g')
-        #plt.barh(y_pos + width, performance, width, align='center', alpha=0.5)
-        #plt.yticks(y_pos, objects)
-        #for bar in bars:
-        #    xval = bar.get_height()
-        #    plt.text(bar.get_y_pos(), xval + .005, xval)
-        #plt.xlabel('Puntaje')
-        #plt.title('Nivel de la Empresa')
-        #plt.savefig(buf, format='png')
-        #plt.close()
-        #return buf.getvalue()
-
     def make_chart_bar(self, data):
         width = 0.5
         buf = io.BytesIO()
@@ -148,14 +126,16 @@ class CrmDiagnostic(models.Model):
         reference = (65, 60, 15, 10)
         plt.figure(figsize =(12, 6))
         plt.ylim(0, 65)
-        plt.bar(x_pos, reference, width, alpha=0.5)
-        plt.bar(x_pos + width, performance, width, alpha=0.5, color='g')
+        rect1 = plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b', label='Nivel Esperado')
+        rect2 = plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g', label='Nivel Obtenido')
         plt.xticks(x_pos, objects)
        # for rect in rects:
        #     height = rect.get_height()
        #     plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
        #        '%d' % int(height),
        #        ha='center', va='bottom')
+        plt.bar_label(rect1, padding=3)
+        plt.bar_label(rect2, padding=3)
         plt.ylabel('Puntaje')
         plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
