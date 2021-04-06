@@ -144,7 +144,7 @@ class CrmDiagnostic(models.Model):
            
             data_chart = [planear, hacer, verificar, actuar] 
       
-            data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
+            data2 = self.make_chart_barh([planear/1.50, hacer/1.50, verificar/1.50, actuar/1.50])
             
             diagnostic.char_img_bar = base64.b64encode(data2)
 
