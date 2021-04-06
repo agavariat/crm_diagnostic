@@ -125,7 +125,7 @@ class CrmDiagnostic(models.Model):
         performance = data
         reference = (65, 60, 15, 10)
         plt.figure(figsize =(12, 6))
-        plt.ylim(0, 70, fontsize=16)
+        plt.ylim(0, 70)
         plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
         plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
         plt.xticks(x_pos, objects)
