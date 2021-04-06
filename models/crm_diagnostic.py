@@ -67,7 +67,7 @@ class CrmDiagnostic(models.Model):
         compute='_get_chart', store=True, sanitize=False)
     char_img = fields.Binary(compute='_get_chart', store=True,)
     char_img_bar = fields.Binary(compute='_get_chart', store=True,)
-    char_img_barx = fields.Binary(compute='_get_chart', store=True,)
+    #char_img_barx = fields.Binary(compute='_get_chart', store=True,)
     diagnostic_chart_two = fields.Char(
     compute='_get_chart', store=True)
 
@@ -132,18 +132,20 @@ class CrmDiagnostic(models.Model):
 
 
     def make_chart_bar(self, data):
-        width = 0.5
+        #width = 0.5
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
         plt.ylim(0, 70)
-        plt.bar(x_pos, performance, width, alpha=0.5, color='g')
+        plt.bar(x_pos, performance, alpha=0.5, color='g')
         plt.xticks(x_pos, objects)
-        plt.legend(labels =('Puntaje Maximo', 'Puntaje Obtenido'),loc = 3)
-        plt.ylabel('Puntaje', fontsize=16)
-        plt.title('Nivel de la Empresa', fontsize=18)
+        plt.legend(labels =('Puntaje Maximo', 'Puntaje Obtenido'),loc = 1)
+        #plt.ylabel('Puntaje', fontsize=16)
+        plt.ylabel('Puntaje')
+        #plt.title('Nivel de la Empresa', fontsize=18)
+        plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
         plt.close()
         return buf.getvalue()  
