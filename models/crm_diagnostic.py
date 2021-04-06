@@ -116,14 +116,14 @@ class CrmDiagnostic(models.Model):
 
 
     def make_chart_barh(self, data):
-        width = 0.35
+        width = 0.5
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         ###objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         y_pos = np.arange(len(objects))
         performance = data
         reference = (65, 60, 15, 10)
-        plt.figure(figsize =(10, 6))
+        plt.figure(figsize =(16, 8))
         plt.xlim(0, 100)
         plt.barh(y_pos, performance, align='center', alpha=0.5)
         plt.barh(y_pos + width, reference, alpha=0.5)
@@ -131,7 +131,29 @@ class CrmDiagnostic(models.Model):
         #for bar in bars:
         #    xval = bar.get_height()
         #    plt.text(bar.get_y_pos(), xval + .005, xval)
-        plt.xlabel('Porcentaje')
+        plt.xlabel('Puntaje')
+        plt.title('Nivel de la Empresa')
+        plt.savefig(buf, format='png')
+        plt.close()
+        return buf.getvalue()
+
+    def make_chart_bar(self, data):
+        width = 0.5
+        buf = io.BytesIO()
+        objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
+        ###objects2 = ['Planear', 'Hacer', 'Verificar', 'Actuar']
+        x_pos = np.arange(len(objects))
+        performance = data
+        reference = (65, 60, 15, 10)
+        plt.figure(figsize =(10, 6))
+        plt.ylim(0, 100)
+        plt.bar(x_pos, performance, align='center', alpha=0.5)
+        plt.bar(x_pos + width, reference, alpha=0.5)
+        plt.xticks(x_pos, objects)
+        #for bar in bars:
+        #    xval = bar.get_height()
+        #    plt.text(bar.get_y_pos(), xval + .005, xval)
+        plt.xlabel('Puntaje')
         plt.title('Nivel de la Empresa')
         plt.savefig(buf, format='png')
         plt.close()
@@ -157,10 +179,11 @@ class CrmDiagnostic(models.Model):
            
             data_chart = [planear, hacer, verificar, actuar] 
       
-            data2 = self.make_chart_barh([planear/1.50, hacer/1.50, verificar/1.50, actuar/1.50])
-            #data3 = self.make_chart_barh(65, 60, 15, 10])
-            
+            data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
+            data3 = self.make_chart_bar([planear, hacer, verificar, actuar])
             diagnostic.char_img_bar = base64.b64encode(data2)
+            diagnostic.char_img_barx = base64.b64encode(data3)
+            
 
     @api.model
     def create(self, vals):
