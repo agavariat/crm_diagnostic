@@ -127,7 +127,7 @@ class CrmDiagnostic(models.Model):
         plt.ylim(0, 65)
         plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b', label='Nivel Esperado')
         plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g', label='Nivel Obtenido')
-        plt.xticks(x_pos, objects + width)
+        plt.xticks(x_pos + width, objects)
        # for rect in rects:
        #     height = rect.get_height()
        #     plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
