@@ -74,7 +74,7 @@ class CrmDiagnostic(models.Model):
         compute='_get_chart', store=True, sanitize=False)
     char_img = fields.Binary(compute='_get_chart', store=True,)
     char_img_bar = fields.Binary(compute='_get_chart', store=True,)
-    char_img_barx = fields.Binary(compute='_get_chart', store=True,)
+    #char_img_barx = fields.Binary(compute='_get_chart', store=True,)
     diagnostic_chart_two = fields.Char(
     compute='_get_chart', store=True)
 
@@ -117,12 +117,12 @@ class CrmDiagnostic(models.Model):
 
 
     def make_chart_bar(self, data):
-        width = 0.5
+        #width = 0.5
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
-        reference = (65, 60, 15, 10)
+        #reference = (65, 60, 15, 10)
         plt.figure(figsize =(12, 6))
         plt.ylim(0, 70)
         #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
