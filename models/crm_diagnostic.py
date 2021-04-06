@@ -72,8 +72,8 @@ class CrmDiagnostic(models.Model):
 
     diagnostic_chart = fields.Html(
         compute='_get_chart', store=True, sanitize=False)
-    #char_img = fields.Binary(compute='_get_chart', store=True,)
-    #char_img_bar = fields.Binary(compute='_get_chart', store=True,)
+    char_img = fields.Binary(compute='_get_chart', store=True,)
+    char_img_bar = fields.Binary(compute='_get_chart', store=True,)
     char_img_barx = fields.Binary(compute='_get_chart', store=True,)
     diagnostic_chart_two = fields.Char(
     compute='_get_chart', store=True)
@@ -164,12 +164,12 @@ class CrmDiagnostic(models.Model):
             for line in diagnostic.crm_diagnostic_line_production_ids:
                 actuar += int(line.puntaje)
            
-            #data_chart = [planear, hacer, verificar, actuar] 
+            data_chart = [planear, hacer, verificar, actuar] 
       
-           # data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
+          
             data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
-            #diagnostic.char_img_bar = base64.b64encode(data2)
-            diagnostic.char_img_barx = base64.b64encode(data2)
+            
+            diagnostic.char_img_bar = base64.b64encode(data2)
             
 
     @api.model
