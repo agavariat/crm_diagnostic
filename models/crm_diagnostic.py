@@ -169,7 +169,7 @@ class CrmDiagnostic(models.Model):
            # data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
             data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
             #diagnostic.char_img_bar = base64.b64encode(data2)
-            diagnostic.char_img_barx = base64.b64encode(data3)
+            diagnostic.char_img_barx = base64.b64encode(data2)
             
 
     @api.model
