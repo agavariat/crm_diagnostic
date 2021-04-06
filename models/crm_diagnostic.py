@@ -109,26 +109,43 @@ class CrmDiagnostic(models.Model):
             return self.env['crm.diagnostic.line']
 
 
-    def make_chart_bar(self, data):
+    #def make_chart_bar(self, data):
         #width = 0.5
-        buf = io.BytesIO()
-        objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        x_pos = np.arange(len(objects))
-        performance = data
+   #     buf = io.BytesIO()
+    #    objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
+     #   x_pos = np.arange(len(objects))
+      #  performance = data
         #reference = (65, 60, 15, 10)
-        plt.figure(figsize =(10, 6))
-        plt.ylim(0, 70)
+      #  plt.figure(figsize =(10, 6))
+       # plt.ylim(0, 70)
         #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
         #plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
         #plt.xticks(x_pos, objects)
-        plt.bar(x_pos, performance, align='center', alpha=0.5)
-        plt.xticks(x_pos, objects)
+        #plt.bar(x_pos, performance, align='center', alpha=0.5)
+        #plt.xticks(x_pos, objects)
         #plt.legend(x_pos, ['Nivel esperado', 'Nivel obtenido'])
-        plt.ylabel('Puntaje', fontsize=16)
-        plt.title('Nivel de la Empresa', fontsize=18)
+        #plt.ylabel('Puntaje', fontsize=16)
+        #plt.title('Nivel de la Empresa', fontsize=18)
+        #plt.savefig(buf, format='png')
+        #plt.close()
+        #return buf.getvalue()
+
+
+    def make_chart_barh(self, data):
+        buf = io.BytesIO()
+        objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
+        y_pos = np.arange(len(objects))
+        performance = data
+        plt.figure(figsize =(10, 6))
+        plt.xlim(0, 100)
+        plt.barh(y_pos, performance, align='center', alpha=0.5)
+        plt.yticks(y_pos, objects)
+        plt.xlabel('Porcentaje')
+        plt.title('Porcentaje de cumplimiento')
+
         plt.savefig(buf, format='png')
         plt.close()
-        return buf.getvalue()
+        return buf.getvalue()    
 
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
@@ -149,7 +166,7 @@ class CrmDiagnostic(models.Model):
            
             #data_chart = [planear, hacer, verificar, actuar] 
         
-            data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
+            data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
             diagnostic.char_img_bar = base64.b64encode(data2)
             
     @api.model
