@@ -132,13 +132,17 @@ class CrmDiagnostic(models.Model):
 
 
     def make_chart_bar(self, data):
+        width = 0.5
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
         x_pos = np.arange(len(objects))
         performance = data
+        reference = (65, 60, 15, 10)
         plt.figure(figsize =(10, 6))
         plt.ylim(0, 100)
-        plt.bar(x_pos, performance, align='center', alpha=0.5)
+        plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
+        plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
+        #plt.bar(x_pos, performance, align='center', alpha=0.5)
         plt.xticks(x_pos, objects)
         plt.ylabel('Porcentaje')
         plt.title('Porcentaje de cumplimiento')
