@@ -120,15 +120,20 @@ class CrmDiagnostic(models.Model):
         width = 0.5
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        #gender = ['Nivel Esperado', 'Nivel Obtenido']
         x_pos = np.arange(len(objects))
         performance = data
         reference = (65, 60, 15, 10)
         plt.figure(figsize =(12, 6))
         plt.ylim(0, 70)
-        plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
-        plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
+        #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
+        #plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
+        #plt.xticks(x_pos, objects)
+
+        #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
+        plt.bar(x_pos, performance, alpha=0.5)
         plt.xticks(x_pos, objects)
+
+
         #plt.legend(gender, loc=2)
         #plt.legend(x_pos, ['Nivel esperado', 'Nivel obtenido'])
        # for rect in rects:
