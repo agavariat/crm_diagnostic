@@ -117,9 +117,9 @@ class CrmDiagnostic(models.Model):
         performance = data
         plt.figure(figsize =(10, 6))
         plt.xlim(0, 100)
-        plt.barh(y_pos, performance, align='center', alpha=0.5, height=y, width=.4)
+        bars = plt.barh(y_pos, performance, align='center', alpha=0.5, height=y, width=.4)
         plt.yticks(y_pos, objects)
-        for bar in barh:
+        for bar in bars:
             yval = bar.get_height()
             plt.text(bar.get_y_pos(), yval + .005, yval)
         plt.xlabel('Porcentaje')
