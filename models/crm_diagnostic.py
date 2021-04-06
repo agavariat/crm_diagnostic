@@ -131,16 +131,16 @@ class CrmDiagnostic(models.Model):
         #return buf.getvalue()
 
 
-    def make_chart_barh(self, data):
+    def make_chart_bar(self, data):
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        y_pos = np.arange(len(objects))
+        x_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
-        plt.xlim(0, 100)
-        plt.barh(y_pos, performance, align='center', alpha=0.5)
-        plt.yticks(y_pos, objects)
-        plt.xlabel('Porcentaje')
+        plt.ylim(0, 100)
+        plt.bar(x_pos, performance, align='center', alpha=0.5)
+        plt.xticks(x_pos, objects)
+        plt.ylabel('Porcentaje')
         plt.title('Porcentaje de cumplimiento')
 
         plt.savefig(buf, format='png')
@@ -166,7 +166,7 @@ class CrmDiagnostic(models.Model):
            
             #data_chart = [planear, hacer, verificar, actuar] 
         
-            data2 = self.make_chart_barh([planear, hacer, verificar, actuar])
+            data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
             diagnostic.char_img_bar = base64.b64encode(data2)
             
     @api.model
