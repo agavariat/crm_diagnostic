@@ -11,22 +11,15 @@ class CrmDiagnosticLine(models.Model):
 
     ANSWER_VALUES = {
         'si': 5,
-        'en_proceso': 3,
-        'no': 1,
-        'no_aplica': 0,
-        'totalmente_de_acuerdo': 5,
-        'de_acuerdo': 4,
-        'ni_de_acuerdo_ni_en_desacuerdo': 3,
-        'en_desacuerdo': 2,
-        'totalmente_en_desacuerdo': 1
+        'en_proceso': 0,
+        'no': 0,
+        'no_aplica': 0
     }
 
     TEXT_VALUATION = {
         1: 'Incipiente',
         2: 'Aceptable',
-        3: 'Confiable',
-        4: 'Competente',
-        5: 'Excelencia'
+        3: 'Confiable'
     }
 
 
@@ -53,7 +46,6 @@ class CrmDiagnosticLine(models.Model):
     diagnostic_id = fields.Many2one(
         'crm.diagnostic'
     )
-
 
     @api.model
     def create(self, values):
