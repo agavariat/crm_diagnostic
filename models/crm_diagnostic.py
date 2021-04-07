@@ -109,28 +109,6 @@ class CrmDiagnostic(models.Model):
             return self.env['crm.diagnostic.line']
 
 
-    #def make_chart_bar(self, data):
-        #width = 0.5
-   #     buf = io.BytesIO()
-    #    objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-     #   x_pos = np.arange(len(objects))
-      #  performance = data
-        #reference = (65, 60, 15, 10)
-      #  plt.figure(figsize =(10, 6))
-       # plt.ylim(0, 70)
-        #plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
-        #plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
-        #plt.xticks(x_pos, objects)
-        #plt.bar(x_pos, performance, align='center', alpha=0.5)
-        #plt.xticks(x_pos, objects)
-        #plt.legend(x_pos, ['Nivel esperado', 'Nivel obtenido'])
-        #plt.ylabel('Puntaje', fontsize=16)
-        #plt.title('Nivel de la Empresa', fontsize=18)
-        #plt.savefig(buf, format='png')
-        #plt.close()
-        #return buf.getvalue()
-
-
     def make_chart_bar(self, data):
         width = 0.35
         reference = (65, 60, 15, 10)
@@ -150,10 +128,6 @@ class CrmDiagnostic(models.Model):
         plt.close()
         return buf.getvalue()  
 
-    
-
-
-
 
     @api.depends('crm_diagnostic_line_ids')
     def _get_chart(self):
@@ -172,10 +146,8 @@ class CrmDiagnostic(models.Model):
             for line in diagnostic.crm_diagnostic_line_production_ids:
                 actuar += int(line.puntaje)
            
-            #data_chart = [planear, hacer, verificar, actuar] 
-            
+
             data2 = self.make_chart_bar([planear, hacer, verificar, actuar])
-            #data3 = self.make_chart_bar([planear, hacer, verificar, actuar])
             diagnostic.char_img_bar = base64.b64encode(data2)
 
             

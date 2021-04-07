@@ -11,20 +11,17 @@
                     <sheet>
                         <div class="oe_title text-center">
                             <h1>
-                                <span>Solucion Diagnostico</span>
+                                <span>Resultado Diagnóstico</span>
                             </h1>
                         </div>
                         <group  col='4'>
                             <group name="left data">
-                                <field name="lead_id" invisible="1"/>
-                                <field name="nombre_negocio" string="Nombre del Negocio" /> 
+                                <field name="lead_id" invisible="1"/> 
                                 <field name="fecha" string="Fecha"/>
                               
                             </group>
-                            <group>
-                                <field name="diagnostico"/>
+                            <group> 
                                 <field name="valuacion_diagnostico"/>
-                                
                             </group>
                         </group>
                         <group>
