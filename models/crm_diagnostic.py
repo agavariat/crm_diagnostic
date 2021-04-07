@@ -136,8 +136,8 @@ class CrmDiagnostic(models.Model):
         reference = (65, 60, 15, 10)
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        x_pos = np.arange(len(objects), 10, 3)
-
+        x_pos = [1,3,5,7]
+        x_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
         plt.ylim(0, 70)
