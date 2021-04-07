@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 RANGES = {
         'incipiente': range(0, 90),
         'aceptable': range(91, 129),
-        'confiable': range(130, 150)
+        'confiable': range(130, 200)
     }
         
 CRM_DIAGNOSTIC_SELECTION_FIELDS = {
