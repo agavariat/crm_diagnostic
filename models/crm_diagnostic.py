@@ -136,7 +136,7 @@ class CrmDiagnostic(models.Model):
         reference = (65, 60, 15, 10)
         buf = io.BytesIO()
         objects = ['Planear', 'Hacer', 'Verificar', 'Actuar']
-        x_pos = [1,3,5,7]
+        #x_pos = [1,3,5,7]
         x_pos = np.arange(len(objects))
         performance = data
         plt.figure(figsize =(10, 6))
@@ -144,8 +144,8 @@ class CrmDiagnostic(models.Model):
         #plt.bar(x_pos, reference, alpha=0.5, color='b')
         #plt.bar(x_pos + width, performance, alpha=0.5, color='g')
         plt.bar(x_pos - width/2, reference, width, alpha=0.5, color='b')
-        plt.bar(x_pos + width/2, performance, width, alpha=0.5, color='g')
-        plt.xticks(x_pos, objects)
+        plt.bar(x_pos + width, performance, width, alpha=0.5, color='g')
+        plt.xticks(x_pos)
         plt.legend(labels =('Puntaje Maximo', 'Puntaje Obtenido'),loc = 1)
         plt.ylabel('Puntaje', fontsize=16)
         plt.title('Nivel de la Empresa', fontsize=18)
