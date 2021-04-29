@@ -47,6 +47,22 @@ TEXT_VALUATION = {
     }
 
 SUGGEST_VALUATION = {
+    'x_in_empleo': {
+        1: '',
+        2: '',
+        3: '',
+        4: '',
+        5: 'Remitir al programa de Empleabilidad',
+        'area': 'FINANZAS'
+        },
+    'x_fin97n': {
+        1: '',
+        2: '',
+        3: '',
+        4: '',
+        5: 'Remitir a la Cooperativa Minuto de Dios',
+        'area': 'FINANZAS'
+        },
     'x_proto1': {
         1: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
         2: 'Acompañamiento y asesoría en la implementación de los protocolos de bioseguridad según la actividad económica del micronegocio.',
@@ -743,7 +759,7 @@ class CrmLead(models.Model):
     def action_crm_diagnostic_view(self):
         for record in self:
             # we avoid to execute the diagnostic whether question modules haven't executed yet
-            if not record.first_module_ready or not record.second_module_read or not record.third_module_ready:
+            if (not record.is_cordinator() or not record.is_orientador()) and (not record.first_module_ready or not record.second_module_read or not record.third_module_ready):
                 raise ValidationError('Para realizar el diagnostico, debe responder las preguntas de los 3 modulos.')
             crm_diagnostic_vals = record.getting_values_to_crm_diagnostic()
             crm_diagnostic_id = self.env['crm.diagnostic'].create(crm_diagnostic_vals)
@@ -934,7 +950,7 @@ class CrmLead(models.Model):
         for lead in self:
             try:
                 root = self.env.ref('base.user_admin').id
-                if root == lead.current_user.id:
+                if root == lead.current_user.id or lead.is_cordinator() or lead.is_orientador():
                     lead.root_current_user = True
                 else:
                     lead.root_current_user = False
@@ -960,7 +976,7 @@ class CrmLead(models.Model):
     # methos that return list of fields by section
     def fields_module3_generalities(self):
         return [
-            'in_empleo', 'x_forma58_form', 'x_forma61_form', 'x_forma60_form',
+            'x_in_empleo', 'x_forma58_form', 'x_forma61_form', 'x_forma60_form',
             'x_forma65_inf', 'x_datos3']
 
     def fields_module3_biosecurity(self):
@@ -1032,35 +1048,38 @@ class CrmLead(models.Model):
 
     # validating if the current user has the facilitador profile
     def is_facilitator(self):
-        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'facilitador')], limit=1)
-        if role_id:
-            if any(user.id == self.env.user.id for user in role_id.line_ids.mapped('user_id')):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'facilitador')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
                 return True
-            else:
-                return False
-        else:
-            return False
+        return False
 
     # validating if the current user has the cordinator profile
     def is_cordinator(self):
-        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'coordinador')], limit=1)
-        if role_id:
-            if any(user.id == self.env.user.id for user in role_id.line_ids.mapped('user_id')):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'coordinador')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
                 return True
-            else:
-                return False
-        else:
-            return False
+        return False
+    
+    def is_orientador(self):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'orientador')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
+                return True
+        return False
 
     # computed if the module1 is ok
     @api.depends(fields_module1)
     def compute_first_module(self):
         for lead in self:
-            if lead.is_facilitator() or lead.is_cordinator():
+            if lead.is_facilitator():
                 if lead.all_fields_module1_are_ok():
                     lead.first_module_ready = True
                 else:
                     lead.first_module_ready = False
+            elif lead.is_cordinator() or lead.is_orientador():
+                lead.first_module_ready = True
             else:
                 lead.first_module_ready = False
 
@@ -1068,11 +1087,13 @@ class CrmLead(models.Model):
     @api.depends(fields_module2)
     def compute_second_module(self):
         for lead in self:
-            if (lead.is_facilitator() or lead.is_cordinator()) and lead.first_module_ready:
+            if lead.is_facilitator() and lead.first_module_ready:
                 if lead.all_fields_module2_are_ok():
                     lead.second_module_read = True
                 else:
                     lead.second_module_read = False
+            elif lead.is_cordinator() or lead.is_orientador():
+                lead.second_module_read = True
             else:
                 lead.second_module_read = False
 
@@ -1080,11 +1101,13 @@ class CrmLead(models.Model):
     @api.depends(full_list_field)
     def compute_third_module(self):
         for lead in self:
-            if (lead.is_facilitator()  or lead.is_cordinator()) and lead.second_module_read:
+            if lead.is_facilitator() and lead.second_module_read:
                 if lead.all_fields_module3_are_ok():
                     lead.third_module_ready = True
                 else:
                     lead.third_module_ready = False
+            elif lead.is_cordinator() or lead.is_orientador():
+                lead.third_module_ready = True
             else:
                 lead.third_module_ready = False
 
