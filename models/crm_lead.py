@@ -715,11 +715,13 @@ class CrmLead(models.Model):
         'lead_id',
         string='CRM Diagnostic',
         copy=False)
-    mentors = fields.Many2many(
+
+    mentors = fields.Many2one(
         'res.partner',
         string='Mentores',
         readonly=True
     )
+
     coordinador = fields.Many2one(
         'res.users',
         string='Coordinador'
@@ -779,7 +781,25 @@ class CrmLead(models.Model):
             }
             dic_sel_fields = lead.getting_selection_fields_to_dignostic_form(lead)
             dic_vals.update(dic_sel_fields)
-            dic_vals['crm_diagnostic_line_ids'] = lead.prepare_diagnostic_lines(lead)
+            results = lead.prepare_diagnostic_lines(lead)
+            if 'PROTOCOLOS DE BIOSEGURIDAD' in results:
+                dic_vals['crm_diagnostic_line_orientation_ids'] = [results.get('PROTOCOLOS DE BIOSEGURIDAD')]
+            elif 'MODELO DE NEGOCIO' in results:
+                dic_vals['crm_diagnostic_line_business_model_ids'] = [results.get('MODELO DE NEGOCIO')]
+            # elif 'PRODUCCIÓN' in results:
+            #     dic_vals['crm_diagnostic_line_production_ids'] = [results.get('PRODUCCIÓN')]
+            # elif 'INNOVACIÓN' in results:
+            #     dic_vals['crm_diagnostic_line_innovation_ids'] = [results.get('INNOVACIÓN')]
+            elif 'FORMALIZACION' in results:
+                dic_vals['crm_diagnostic_line_formalization_ids'] = [results.get('FORMALIZACION')]
+            # elif 'ORGANIZACIÓN' in results:
+            #     dic_vals['crm_diagnostic_line_organization_ids'] = [results.get('ORGANIZACIÓN')]
+            elif 'MERCADEO Y COMERCIALIZACION' in results:
+                dic_vals['crm_diagnostic_line_marketing_ids'] = [results.get('MERCADEO Y COMERCIALIZACION')]
+            elif 'FINANZAS' in results:
+                dic_vals['crm_diagnostic_line_finance_ids'] = [results.get('FINANZAS')]
+
+            
             return dic_vals
 
     # getting str values from selection fields
@@ -797,6 +817,7 @@ class CrmLead(models.Model):
     @api.model
     def prepare_diagnostic_lines(self, lead):
         lines = []
+        lines_dict = {}
         dic_fields = lead.read()[0]
         _fields = self.env['ir.model.fields'].search(
             [('name', 'ilike', 'x_'),
@@ -806,6 +827,7 @@ class CrmLead(models.Model):
                  lambda f : f.name.startswith('x_'))
         puntaje = 0
         for field in _fields:
+            tmp_list = []
             field_value = dic_fields.get(field.name)
             # TODO
             # validating if the field value is in ANSWER_VALUES
@@ -815,33 +837,62 @@ class CrmLead(models.Model):
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
                 suggestion, area = self.get_sugestion(field.name, score)
-                lines.append(
-                    (0, 0, {
-                        'name': field.field_description,
-                        'respuesta': answer,
-                        'puntaje': score,
-                        'area': area,
-                        'sugerencia': suggestion,
-                        'valoracion': valuation,
-                        }))
+                if area in lines_dict:
+                    tmp_list = list(lines_dict.get(area))
+                    values = {
+                            'name': field.field_description,
+                            'respuesta': answer,
+                            'puntaje': score,
+                            'area': area,
+                            'sugerencia': suggestion,
+                            'valoracion': valuation,
+                            }
+                    tmp_list.append((0, 0, values))
+                    lines_dict.update({area:tmp_list})
+
+                else:
+                    vals = {
+                            'name': field.field_description,
+                            'respuesta': answer,
+                            'puntaje': score,
+                            'area': area,
+                            'sugerencia': suggestion,
+                            'valoracion': valuation,
+                            }
+
+                    lines_dict.update({area:(0,0,vals)})
             else:
                 answer = dict(lead._fields[field.name].selection).get(getattr(lead, field.name))
                 score = ANSWER_VALUES.get(field_value)
                 valuation = TEXT_VALUATION.get(score)
                 suggestion, area = self.get_sugestion(field.name, score)
-                lines.append(
-                    (0, 0, {
-                        'name': field.field_description,
-                        'respuesta': answer,
-                        'puntaje': score,
-                        'area': area,
-                        'sugerencia': suggestion,
-                        'valoracion': valuation,
-                        }))
+                if area in lines_dict:
+                    tmp_list = list(lines_dict.get(area))
+                    values = {
+                            'name': field.field_description,
+                            'respuesta': answer,
+                            'puntaje': score,
+                            'area': area,
+                            'sugerencia': suggestion,
+                            'valoracion': valuation,
+                            }
+                    tmp_list.append((0, 0, values))
+                    lines_dict.update({area:tmp_list})
+                else:
+                    vals = {
+                            'name': field.field_description,
+                            'respuesta': answer,
+                            'puntaje': score,
+                            'area': area,
+                            'sugerencia': suggestion,
+                            'valoracion': valuation,
+                            }
+
+                    lines_dict.update({area:(0, 0, vals)})
             if score:
                 puntaje += score
         self.set_diagnostico(puntaje, lead)
-        return lines
+        return lines_dict
 
     # set diagnostico based on range
     @api.model
@@ -863,17 +914,37 @@ class CrmLead(models.Model):
              ('diagnostico', 'in', ('confiable', 'competente', 'excelencia'))])
         if not lead_ids:
             return
+        count_max = 0
+        last_week = True
+        _logger.info("&"*100)
+        next_week = True
+        user_ids = True
+
         for lead in lead_ids:
+
             for event in event_ids.sorted(reverse=True):
-                # TODO
-                # we remove the current item of lead_ids and event_ids of their each object array
-                # because an opportunity has to be in an event
-                event.opportunity_id = lead.id
-                lead.mentors += event.partner_ids
-                self.send_mail_notification(lead)
-                event_ids -= event
-                lead_ids -= lead
-                break
+
+                if user_ids == True:
+                    user_ids = event.partner_ids
+                _logger.info(next_week)
+                if last_week and last_week != event.start_datetime.isocalendar()[1]:
+                    if next_week == True:
+                        next_week = event.start_datetime.isocalendar()[1]
+                    if next_week == event.start_datetime.isocalendar()[1] and user_ids == event.partner_ids:
+                        last_week = event.start_datetime.isocalendar()[1]
+                        event.opportunity_id = lead.id
+                        lead.mentors += event.partner_ids[0]
+                        self.send_mail_notification(lead)
+                        event_ids -= event
+                        lead_ids -= lead
+                        count_max += 1
+                        next_week = (event.start_datetime  + timedelta(weeks=2)).isocalendar()[1]
+                if count_max == 3:
+                    count_max = 0
+                    next_week = False
+                    user_ids = True
+                    last_week = True
+                    break
 
     # send email notification to coordinador and facilitador
     @api.model
@@ -888,14 +959,14 @@ class CrmLead(models.Model):
     def available_events(self):
         week_days = range(0, 5)
         date_to_search = fields.Datetime.now().replace(hour=0, minute=0) + timedelta(days=1)
-        _logger.info(date_to_search)
-        _logger.info("$"*100)
         events = self.env['calendar.event'].search(
             [('start_datetime', '>', date_to_search),
             ('opportunity_id', '=', False)])
+        _logger.info(events)
         for event in events:
             if event.start_datetime.weekday() not in week_days:
                 events -= event
+        _logger.info(events)
         return events
 
     # returning area and suggestion base on field_name and score
@@ -967,7 +1038,7 @@ class CrmLead(models.Model):
             'x_estrato', 'x_situacion', 'x_sector', 'x_actcomer', 'x_state_id', 'x_city_id',
             'x_ubic', 'x_dir_neg', 'x_com_cuenta', 'x_merc78_form', 'x_merc80_form',
             'x_merc79_form', 'x_merc81_form', 'x_que_por_ren', 'x_que_por_ren_ant',
-            'x_tien_dur', 'tie_us_cre', 'tie_ca_ide', 'x_datos1']
+            'x_tien_dur', 'tie_us_cre', 'tie_ca_ide', 'x_datos1', 'attach_file', 'x_ubicacion_negocio',]
 
     # return the field list to validate the module2
     def fields_module2(self):
@@ -1061,9 +1132,38 @@ class CrmLead(models.Model):
             if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
                 return True
         return False
+
+    # validating if the current user has the cordinator profile
+    def is_mentor(self):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'mentor')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
+                return True
+        return False
     
     def is_orientador(self):
         role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'orientador')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
+                return True
+        return False
+
+    def is_admin(self):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'admin')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
+                return True
+        return False
+
+    def is_administrativo(self):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'administrativo')])
+        for role in role_id:
+            if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
+                return True
+        return False
+
+    def is_estudiante(self):
+        role_id = self.env['res.users.role'].sudo().search([('role_type', '=', 'estudiante')])
         for role in role_id:
             if any(user.id == self.env.user.id for user in role.line_ids.mapped('user_id')):
                 return True
@@ -1241,18 +1341,35 @@ class CrmLead(models.Model):
             submenu=submenu)
         if view_type == 'form':
             doc = etree.XML(res['arch'])
-            if self.is_cordinator():
+            if self.is_admin():
                 for node in doc.xpath("//field[@name='mentors']"):
                     if 'modifiers' in node.attrib:
                         modifiers = json.loads(node.attrib['modifiers'])
                         modifiers['readonly'] = False
                         node.attrib['modifiers'] = json.dumps(modifiers)
+                    if 'options' in node.attrib:
+                        options = json.loads(node.attrib['options'])
+                        options['no_create'] = True
+                        options['no_open'] = True
+                        node.attrib['options'] = json.dumps(options)
+
                 res['arch'] = etree.tostring(doc)
             if self.is_facilitator():
                 for node in doc.xpath("//header/field[@name='stage_id']"):
                     if 'options' in node.attrib:
                         node.attrib.pop('options')
+
                 res['arch'] = etree.tostring(doc)
+
+                for node in doc.xpath("//field[@name='mentors']"):
+                    if not 'options' in node.attrib:
+                        options = json.loads(node.attrib['options'])
+                        options['no_create'] = False
+                        options['no_open'] = False
+                        node.attrib['options'] = json.dumps(options)
+
+                res['arch'] = etree.tostring(doc)
+
         return res
 
 ##########################################################################
